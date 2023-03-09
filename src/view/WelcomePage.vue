@@ -73,7 +73,7 @@ export default {
 
 <style scoped>
 .body{
-  background: #ff4931;
+  background: #40445B;
   transition: all .5s;
   padding: 1px;
   min-height: 100vh;
@@ -83,7 +83,7 @@ export default {
 }
 
 .body.move{
-  background: #e0b722;
+  background: #8D99DE;
 }
 
 .veen{
@@ -103,7 +103,7 @@ export default {
 }
 .veen button{
   background: transparent;
-//background-image: linear-gradient(90deg, #e0b722, #ff4931);
+//background-image: linear-gradient(90deg, #e0b722, #40445B);
   display: inline-block;
   padding: 10px 30px;
   border: 3px solid #fff;
@@ -115,8 +115,8 @@ export default {
   transition: all .25s;
 }
 .veen button.dark{
-  border-color: #ff4931;
-  background: #ff4931;
+  border-color: #40445B;
+  background: #40445B;
 }
 /* 		.veen .move button.dark{
 			border-color: #e0b722;
@@ -202,13 +202,13 @@ export default {
 }
 .veen .wrapper input:focus{
   outline: none;
-  border-color: #ff4931;
+  border-color: #40445B;
 }
 .veen > .wrapper.move{
   left: 45%;
 }
 .veen > .wrapper.move input:focus{
-  border-color: #e0b722;
+  border-color:  #8D99DE;
 }
 @media (max-width: 767px){
   .veen{
@@ -244,10 +244,10 @@ export default {
   }
   .splits button.active{
     opacity: 1;
-    background: #ff4931;
+    background: #40445B;
   }
   .splits.rgstr-btn button.active{
-    background: #e0b722;
+    background:  #8D99DE;
   }
   .splits p{
     display: none;

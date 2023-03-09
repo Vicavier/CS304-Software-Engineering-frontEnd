@@ -6,3 +6,4 @@ import router from './router'
 import './iconfont/style.css'
 
 createApp(App).use(ElementUI).use(router).mount('#app')
+
