@@ -71,7 +71,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .body{
   background: #ff4931;
   transition: all .5s;
