@@ -74,7 +74,7 @@
 
 <script>
 import {ref, reactive} from "vue";
-
+import axios from "axios";
 export default {
   name:'HomePage',
   setup(){
@@ -90,11 +90,19 @@ export default {
 
     //methods
     function onLogin(){
-
+      if (form.username !== '' && form.password !== ''){
+        axios.post('').then((response)=>{
+          console.log(response.data)
+        })
+      } else {
+        alert("请输入用户名或密码！！")
+      }
     }
 
     function onRegister(){
-
+      axios.post('').then((response)=>{
+        console.log(response.data)
+      })
     }
 
     return {

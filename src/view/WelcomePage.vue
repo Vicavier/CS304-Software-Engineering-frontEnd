@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="{'body':login, 'body move':!login}">
+  <div v-bind:class="{'loginBody':login, 'loginBody move':!login}">
     <div class="veen" >
       <div class="login-btn splits">
         <p>Already an user?</p>
@@ -49,10 +49,12 @@
       </div>
     </div>
   </div>
+  <div class="footer" @click="toHomePage">访客模式</div>
 </template>
 
 <script>
 import {ref} from "vue";
+import router from '../router'
 export default {
   setup(){
     let login = ref(true)
@@ -66,11 +68,14 @@ export default {
       this.login = true;
       console.log(this.login);
     }
-
+    function toHomePage(){
+      router.push('/homepage');
+    }
     return {
       login,
       login_click,
-      register_click
+      register_click,
+      toHomePage
     }
   }
 }
@@ -78,7 +83,7 @@ export default {
 </script>
 
 <style scoped>
-.body{
+.loginBody{
   background: #40445B;
   transition: all .5s;
   padding: 1px;
@@ -88,7 +93,7 @@ export default {
   justify-content: center;
 }
 
-.body.move{
+.loginBody.move{
   background: #8D99DE;
 }
 
@@ -280,5 +285,16 @@ site-link{
 .site-link img{
   width: 30px;
   height: 30px;
+}
+
+.footer{
+  width: 100%;
+  color: wheat;
+  text-decoration: underline;
+  font-size: 150%;
+  text-align: center;
+  position: absolute;
+  cursor:pointer;
+  bottom: 60px;
 }
 </style>

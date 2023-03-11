@@ -4,6 +4,9 @@ import ElementUI from 'element-plus'
 import 'element-plus/dist/index.css'
 import router from './router'
 import './iconfont/style.css'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
-createApp(App).use(ElementUI).use(router).mount('#app')
+const app = createApp(App)
+app.use(ElementUI).use(router).use(VueAxios, axios).mount('#app')
 
