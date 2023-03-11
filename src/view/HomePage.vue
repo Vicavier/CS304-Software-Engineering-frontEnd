@@ -73,28 +73,41 @@
 </template>
 
 <script>
+import {ref, reactive} from "vue";
+
 export default {
-  data() {
+  name:'HomePage',
+  setup(){
+    let haveLogin = ref(false)
+    let defaultAvatar =  ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+    let form = reactive({
+      username: '',
+      password: '',
+      keepalive: false,
+    })
+    let search_content = ref('')
+    let search_module = ref('')
+
+    //methods
+    function onLogin(){
+
+    }
+
+    function onRegister(){
+
+    }
+
     return {
-      haveLogin: false,
-      defaultAvatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      form: {
-        username: '',
-        password: '',
-        keepalive: false,
-      },
-      search_content:'',
-      search_module: '',
+      haveLogin,
+      defaultAvatar,
+      form,
+      search_content,
+      search_module,
+      onLogin,
+      onRegister
     }
   },
-  methods: {
-    onLogin(){
 
-    },
-    onRegister(){
-
-    }
-  }
 }
 </script>
 <style lang="less" scoped>
@@ -136,7 +149,7 @@ export default {
   height: 50px;
   line-height: 50px;
   text-align: center;
-  background-color: #f8f40c;
+  background-color: rgba(238, 159, 6, 0.4);
 }
 .nav-menu:hover{
   border-left: 5px solid #e76e0d;

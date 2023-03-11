@@ -17,6 +17,6 @@ module.exports = defineConfig({
   transpileDependencies: true
 })
 
-// module.exports = defineConfig({
-//   transpileDependencies: true
-// })
+// module.exports = {
+//   lintOnSave:false, //关闭语法检查
+// }

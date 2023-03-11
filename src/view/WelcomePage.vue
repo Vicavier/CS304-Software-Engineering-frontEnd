@@ -50,23 +50,29 @@
     </div>
   </div>
 </template>
+
 <script>
+import {ref} from "vue";
 export default {
-  data(){
-    return{
-      login:true
-    };
-  },
-  methods:{
-    register_click(){
+  setup(){
+    let login = ref(true)
+
+    //methods
+    function register_click(){
       this.login = false;
       console.log(this.login);
-    },
-    login_click() {
+    }
+    function login_click() {
       this.login = true;
       console.log(this.login);
     }
-  },
+
+    return {
+      login,
+      login_click,
+      register_click
+    }
+  }
 }
 
 </script>
