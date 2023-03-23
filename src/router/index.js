@@ -1,16 +1,30 @@
 import {createRouter, createWebHistory} from "vue-router";
-import WelcomePage from "../view/WelcomePage.vue";
-import HomePage from "../view/HomePage.vue"
+
 const routes = [
     //register and login
     {
         path: '/',
-        component: WelcomePage,
+        component: ()=> import('../view/HomePage.vue'),
+        children:[
+            {
+                path:'/',
+                component: ()=>import('../view/mainpage/MainContent.vue')
+            },
+            {
+                path:'selfpage',
+                component: ()=>import('../view/SelfPage.vue'),
+            }
+        ]
     },
     {
-        path:'/homepage',
-        component: HomePage,
+        path:'/sign',
+        component: ()=>import('../view/SignPage.vue'),
+    },
+    {
+        path:'/write',
+        component:()=>import('../view/WritePage.vue'),
     }
+
 ]
 
 const router = createRouter({

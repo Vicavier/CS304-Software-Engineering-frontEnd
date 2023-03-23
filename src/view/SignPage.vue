@@ -69,7 +69,7 @@ export default {
       console.log(this.login);
     }
     function toHomePage(){
-      router.push('/homepage');
+      router.push('/');
     }
     return {
       login,
