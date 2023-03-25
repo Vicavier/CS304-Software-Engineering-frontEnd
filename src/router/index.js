@@ -23,6 +23,16 @@ const routes = [
     {
         path:'/write',
         component:()=>import('../view/WritePage.vue'),
+        children: [
+            {
+                path:'',
+                component:()=>import('../view/mainpage/WriteAssey.vue'),
+            },
+            {
+                path:'QA',
+                component:()=>import ('../view/mainpage/QandA.vue'),
+            }
+        ]
     }
 
 ]

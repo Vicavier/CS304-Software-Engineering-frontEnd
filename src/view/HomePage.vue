@@ -73,9 +73,35 @@
           </div>
         </div>
         <div class="vice-content">
-          <!--创作中心-->
-          <!--推荐关注-->
-          <el-button type="primary" @click="toWritePage">进入创作界面</el-button>
+          <div class="vice-content-title">
+            <i class="icon-bubble"></i>
+            创作中心
+            <el-tag class="ml-2" >Lv {{level}}</el-tag>
+          </div>
+          <div class="vice-content-nav">
+            <div class="vice-content-nav-item">
+              <el-button type="primary" circle @click="toWritePage"><i class="icon-write"></i></el-button>
+              <h5>写文章</h5>
+            </div>
+            <div class="vice-content-nav-item">
+              <el-button type="warning" circle @click="toQA"><i class="icon-bubbles"></i></el-button>
+              <h5>问问题</h5>
+            </div>
+          </div>
+          <div class="quick-QA">
+            <el-input
+                v-model="textarea"
+                :autosize="{ minRows: 2, maxRows: 4 }"
+                type="textarea"
+                placeholder="快速提问"
+            />
+            <div style="margin: 10px 0">
+              <el-button type="primary" >发布问题</el-button>
+              <el-button type="primary" @click="toWritePage">进入创作界面</el-button>
+            </div>
+           </div>
+
+
         </div>
       </el-main>
     </el-container>
@@ -98,8 +124,8 @@ export default {
     })
     let search_content = ref('')
     let search_module = ref('')
-
-
+    const textarea = ref('')
+    let level = ref('2')
     //methods
     function onLogin(){
       // if (form.username !== '' && form.password !== ''){
@@ -128,6 +154,9 @@ export default {
     function toWritePage(){
       router.push('/write');
     }
+    function toQA(){
+      router.push('/write/QA')
+    }
 
     return {
       haveLogin,
@@ -135,11 +164,14 @@ export default {
       form,
       search_content,
       search_module,
+      textarea,
+      level,
       onLogin,
       onRegister,
       toSelfPage,
       toHomePage,
       toWritePage,
+      toQA,
     }
   },
 
@@ -219,12 +251,32 @@ export default {
   width: 65%;
   background-color: rgb(255,255,255);
 }
+
+
+
 .vice-content{
   width: 25%;
   margin-left: 20px;
   background-color: rgb(255,255,255);
 }
 
+.vice-content-title{
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
 
-
+}
+.vice-content-nav{
+  width: 100%;
+  text-align: center;
+}
+.vice-content-nav-item{
+  float: left;
+  width: 50%;
+}
+.quick-QA{
+  width: 90%;
+  margin: 0 auto;
+  text-align:center;
+}
 </style>

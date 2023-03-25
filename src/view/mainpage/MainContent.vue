@@ -1,7 +1,12 @@
 <template>
-    <div class="blogs">
-      <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
-    </div>
+  <div class="main-content-nav">
+    <div class="main-content-nav-item">文章</div>
+    <div class="main-content-nav-item">问答</div>
+  </div>
+
+  <div class="blogs">
+    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
+  </div>
 </template>
 
 <script>
@@ -42,3 +47,27 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.main-content-nav{
+  height: 65px;
+  width: 100%;
+  border-bottom: 1px solid #f0f2f7;
+}
+
+.main-content-nav-item{
+  height: 100%;
+  float: left;
+  width: 50%;
+  font-size: 16px;
+  font-weight: bolder;
+  line-height: 65px;
+  text-align: center;
+
+}
+
+.main-content-nav-item:hover {
+  color: #8D99DE;
+  cursor:pointer;
+}
+</style>

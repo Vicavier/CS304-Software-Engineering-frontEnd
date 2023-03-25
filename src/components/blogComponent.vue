@@ -4,7 +4,7 @@
       <a>{{content.title}}</a>
     </div>
     <div class="tags">
-      <el-tag class="ml-2" type="success">{{content.tags}}</el-tag>
+      <el-tag class="ml-2" type="success" v-for="(item, index) in content.tags.value" :key="index">{{item}}</el-tag>
       <img :src=content.url.value v-show="content.url.value !== ''"  style="height: 80px;float: right;margin-right: 35px">
     </div>
 
