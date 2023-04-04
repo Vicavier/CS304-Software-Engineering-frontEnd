@@ -39,7 +39,19 @@ export default {
         tags:['食堂','中心餐厅','电池'],
         likes:2,
         url:'',
-      }
+      },{
+        id:3,
+        title:'王者荣耀凉了吗？',
+        tags:['王者荣耀','电子竞技'],
+        likes:234,
+        url:'',
+      },{
+        id:4,
+        title:'电子系和计算机系如何选择',
+        tags:['电子','计算机','选专业'],
+        likes:555,
+        url:'',
+      },
     ])
     return {
       contentList

@@ -1,0 +1,33 @@
+#head{
+    height: 80px;
+    width: 100%;
+    position:fixed;
+    line-height: 80px;
+    background-color: rgb(255,255,255);
+    box-shadow: 0 1px 3px hsla(0,0%,7%,.1);
+    overflow: hidden;
+    z-index: 99;
+}
+.logo{
+    height: 50px;
+    line-height: 80px;
+    float: left;
+}
+
+.nav-menu{
+    height: 80px;
+    width: 60px;
+    text-align: center;
+    float: left;
+    margin: 0 10px 0 10px;
+
+}
+.nav-menu:hover{
+    border-bottom: 5px solid #e76e0d;
+    cursor: pointer;
+}
+.nav_right{
+    height: 100%;
+    float: right;
+    margin-right: 30px;
+}

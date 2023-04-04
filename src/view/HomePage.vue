@@ -67,7 +67,6 @@
       <el-main>
         <div class="main-page">
           <!--主要路由区域-->
-
           <div class="main-content">
             <router-view></router-view>
           </div>
@@ -84,7 +83,7 @@
               <h5>写文章</h5>
             </div>
             <div class="vice-content-nav-item">
-              <el-button type="warning" circle @click="toQA"><i class="icon-bubbles"></i></el-button>
+              <el-button type="warning" circle @click="toQAPage"><i class="icon-bubbles"></i></el-button>
               <h5>问问题</h5>
             </div>
           </div>
@@ -154,7 +153,7 @@ export default {
     function toWritePage(){
       router.push('/write');
     }
-    function toQA(){
+    function toQAPage(){
       router.push('/write/QA')
     }
 
@@ -171,7 +170,7 @@ export default {
       toSelfPage,
       toHomePage,
       toWritePage,
-      toQA,
+      toQAPage,
     }
   },
 
@@ -237,22 +236,23 @@ export default {
   background-color: rgb(246, 246, 246);
   margin-top: 80px;
 }
+.el-main::-webkit-scrollbar{
+  display: none;
+}
 .main-page{
   width: 90%;
   margin: 0 auto;
-
 }
 
 .main-content,.vice-content{
   display: inline-block;
   float: left;
 }
+
 .main-content{
   width: 65%;
   background-color: rgb(255,255,255);
 }
-
-
 
 .vice-content{
   width: 25%;

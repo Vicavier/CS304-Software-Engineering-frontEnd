@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="title">
-      <a>{{content.title}}</a>
+      <a>{{content.title.value}}</a>
     </div>
     <div class="tags">
       <el-tag class="ml-2" type="success" v-for="(item, index) in content.tags.value" :key="index">{{item}}</el-tag>
@@ -32,7 +32,6 @@ export default {
   },
   setup(props){
     console.log(props.content)
-
 
     return {
 
