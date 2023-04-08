@@ -12,9 +12,13 @@ const routes = [
             },
             {
                 path:'selfpage',
-                component: ()=>import('../view/SelfPage.vue'),
-            }
+                component: ()=>import('../view/profile/ProfilePage.vue'),
+            },
         ]
+    },
+    {
+        path:'/edit',
+        component:() => import('../view/profile/InfoEdit.vue')
     },
     {
         path:'/sign',
@@ -33,7 +37,8 @@ const routes = [
                 component:()=>import ('../view/mainpage/QandA.vue'),
             }
         ]
-    }
+    },
+
 
 ]
 

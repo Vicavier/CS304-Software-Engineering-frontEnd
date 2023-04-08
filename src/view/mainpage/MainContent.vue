@@ -4,7 +4,7 @@
     <div class="main-content-nav-item">问答</div>
   </div>
 
-  <div class="blogs">
+  <div class="blogs" >
     <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
   </div>
 </template>
