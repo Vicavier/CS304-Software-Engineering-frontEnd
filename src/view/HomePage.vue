@@ -89,17 +89,16 @@
           </div>
           <div class="quick-QA">
             <el-input
-                v-model="textarea"
+                v-model="quick_QA.content"
                 :autosize="{ minRows: 2, maxRows: 4 }"
                 type="textarea"
                 placeholder="快速提问"
             />
             <div style="margin: 10px 0">
-              <el-button type="primary" >发布问题</el-button>
+              <el-button type="primary" @click="postQuestion">发布问题</el-button>
               <el-button type="primary" @click="toWritePage">进入创作界面</el-button>
             </div>
-           </div>
-
+          </div>
 
         </div>
       </el-main>
@@ -116,25 +115,29 @@ export default {
   setup(){
     let haveLogin = ref(false)
     let defaultAvatar =  ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
-    let form = reactive({
-      username: '',
-      password: '',
-      keepalive: false,
+    let quick_QA = reactive({
+      title: '',
+      is_anonymous: false,
     })
     let search_content = ref('')
     let search_module = ref('')
     const textarea = ref('')
     let level = ref('2')
     //methods
+
+    function postQuestion(){
+      axios.post('http://10.26.5.9:8081/QA', {
+        title: quick_QA.title,
+        poster:'教父爷爷',
+        is_anonymous: quick_QA.is_anonymous,
+      }).then((response)=>{
+        console.log(response.data)
+      })
+    }
     function onLogin(){
-      // if (form.username !== '' && form.password !== ''){
-      //   axios.post('').then((response)=>{
-      //     console.log(response.data)
-      //   })
-      // } else {
-      //   alert("请输入用户名或密码！！")
-      // }
-      haveLogin.value = !haveLogin.value;
+      axios.post('http://10.26.5.9:8081').then((response)=>{
+        console.log(response.data)
+      })
     }
 
     function onRegister(){
@@ -157,14 +160,16 @@ export default {
       router.push('/write/QA')
     }
 
+
     return {
       haveLogin,
       defaultAvatar,
-      form,
+      quick_QA,
       search_content,
       search_module,
       textarea,
       level,
+      postQuestion,
       onLogin,
       onRegister,
       toSelfPage,

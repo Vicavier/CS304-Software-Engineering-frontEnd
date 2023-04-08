@@ -14,7 +14,8 @@ module.exports = defineConfig({
       }),
     ],
   },
-  transpileDependencies: true
+  transpileDependencies: true,
+
 })
 
 // module.exports = {

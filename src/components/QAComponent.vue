@@ -6,7 +6,7 @@
     </div>
     <div class="QA-content">
       <div class="question-poster">
-        <img :src=QAContent.url.value style="width: 25px;">
+        <img :src=QAContent.avatar_url.value style="width: 25px;">
          {{QAContent.poster.value}}
       </div>
       <el-button id="write-button" type="primary" @click="onLogin"><i class="icon-write"></i>写回答</el-button>
@@ -23,7 +23,7 @@ export default {
       answers:Number,
       likes:Number,
       poster:String,
-      url:String
+      avatar_url:String
     }
   },
 }

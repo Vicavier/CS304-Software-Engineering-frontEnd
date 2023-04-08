@@ -1,11 +1,11 @@
 <template>
   <div class="content">
     <div class="title">
-      <a>{{content.title.value}}</a>
+      <div class="title-content">{{content.title.value}}</div>
     </div>
     <div class="tags">
       <el-tag class="ml-2" type="success" v-for="(item, index) in content.tags.value" :key="index">{{item}}</el-tag>
-      <img :src=content.url.value v-show="content.url.value !== ''"  style="height: 80px;float: right;margin-right: 35px">
+      <img :src=content.cover_url.value v-show="content.cover_url.value !== ''"  style="height: 80px;float: right;margin-right: 35px">
     </div>
 
     <div class="content-item">
@@ -27,7 +27,8 @@ export default {
       title: String,
       tags:Array,
       likes:Number,
-      url:String,
+      cover_url:String,
+
     }
   },
   setup(props){
@@ -42,8 +43,10 @@ export default {
 <style lang="less" scoped>
 .title{
   margin-top: 10px;
+  margin-left: 20px;
+  width: 80%;
 }
-a{
+.title-content{
   text-decoration: none;
   font-size: 18px;
   font-synthesis: style;
@@ -52,7 +55,7 @@ a{
 .content{
   width: 100%;
   position: relative;
-  margin-left: 20px;
+
   border-bottom: 1px solid #f0f2f7;
 }
 .content-item{
@@ -61,6 +64,11 @@ a{
 }
 .ml-2{
   margin-right: 10px;
+}
+
+.likes,.tags{
+  width: 80%;
+  margin-left: 20px;
 }
 
 
