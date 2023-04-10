@@ -8,8 +8,8 @@
 //     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
 //     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
 // </el-upload>
-
-
+// //
+// //
 // let imageUrl = ref('')
 // function handleAvatarSuccess(resp){
 //     console.log(resp)

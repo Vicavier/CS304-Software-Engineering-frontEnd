@@ -1,7 +1,7 @@
 <template>
   <div class="upload-area">
     <input type="file" @change="handleFileUpload">
-    <div :style="{ backgroundImage: `url(${imageUrl})` }">
+    <div :style="{ backgroundImage: `url(${imageUrl})`, backgroundColor:'#A9A9A9' }">
       <el-button type="info" plain>
         <el-icon><Camera /></el-icon>
         上传背景图片
@@ -15,7 +15,7 @@ export default {
   name: "bgComponent.vue",
   data() {
     return {
-      imageUrl: null
+      imageUrl: 'https://opencurve-picture.oss-cn-shenzhen.aliyuncs.com/e298c6c962a736d65a2b3d810d854ba41268908276.png'
     };
   },
   methods: {

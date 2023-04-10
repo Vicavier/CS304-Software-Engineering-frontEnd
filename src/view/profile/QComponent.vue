@@ -5,8 +5,10 @@
 </template>
 
 <script>
+
+
 export default {
-  name: "QComponent.vue"
+  name: "QComponent.vue",
 }
 </script>
 

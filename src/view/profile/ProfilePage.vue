@@ -8,7 +8,7 @@
     </div>
 
     <div class="profile-info">
-      <el-avatar shape="square" :size="100" :fit="'fill'" :src="url" />
+      <el-avatar shape="square" :size="100" :fit="'fill'" :src="url" />>
     </div>
 
     <div class="profile-body">
@@ -16,13 +16,14 @@
         <el-button @click="changeNav(0)">回答</el-button>
         <el-button @click="changeNav(1)">提问</el-button>
         <el-button @click="changeNav(2)">文章</el-button>
-        <el-button @click="toInfoEditPage">修改个人资料</el-button>
+        <el-button @click="changeNav(3)">修改个人资料</el-button>
       </el-row>
     </div>
 
     <div class="profile-items">
       <div v-if="nav === 0"><AComponent></AComponent></div>
       <div v-else-if="nav === 1"><QComponent ></QComponent></div>
+      <div v-else-if="nav === 3"><infoEdit></infoEdit></div>
     </div>
   </div>
 </template>
@@ -30,9 +31,11 @@
 import QComponent from "@/view/profile/QComponent.vue";
 import AComponent from "@/view/profile/AComponent.vue";
 import bgComponent from "@/components/bgComponent.vue";
+import infoEdit from "@/view/profile/InfoEdit.vue";
 import router from "@/router";
+// import InfoEdit
 export default {
-  components:{QComponent, AComponent, bgComponent},
+  components:{infoEdit,QComponent, AComponent, bgComponent},
   data(){
     return{
       nav:0,
