@@ -12,31 +12,6 @@
         <div class="nav-menu"><i class="icon-folder"></i> 收藏夹</div>
         <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
       </div>
-      <div class="search">
-        <el-input
-            v-model="search_content"
-            class="w-50 m-2"
-            size="large"
-            placeholder="搜索作者、帖子"
-        >
-          <template #append>
-            <i class="icon-search"></i>
-          </template>
-        </el-input>
-      </div>
-      <div class="nav_right" v-show="haveLogin">
-        <div class="nav_right">
-          <img src="../../image/avatar.jpg" style="height: 50px;">
-        </div>
-        <div class="nav_right">
-          <el-button type="primary">提问</el-button>
-        </div>
-      </div>
-      <div class="nav_right" v-show="!haveLogin">
-        <div class="nav_right">
-          <el-button type="primary" @click="onLogin">登录/注册</el-button>
-        </div>
-      </div>
     </el-header>
     <el-main>
       <div class="main-page">
@@ -46,19 +21,20 @@
           <v-md-editor class="editor" v-model="text" height="800px" @keyup="handleKeyup"></v-md-editor>
         </div>
       </div>
+
       <div class="chatting">
         <!-- chat robot 组件-->
         <chat-box>
           <div class="chat-history">
             <div v-for="message in messages" :key="message.id" class="message-item">
               <div :class="message.type === 'bot' ? 'bot-message' : 'user-message'">
-                {{ message.text }}
+                {{ message.msg }}
               </div>
             </div>
           </div>
           <div class="chat-input">
             <el-input
-                v-model="inputText"
+                v-model=inputText
                 placeholder="请输入聊天内容"
                 type="text"
                 @keydown.enter="onSubmit"
@@ -81,70 +57,89 @@
 
 <script>
 import axios from 'axios';
+import {ref, reactive} from 'vue';
 
 export default {
-  data() {
-    return {
-      text: '',
-      showDialog: false,
 
-      //聊天相关数据
-      messages: [
-        {
-          id: 1,
-          text: '欢迎来到聊天室',
-          type: 'bot',
-        },
-      ],
-      inputText: '',
-      response: "Simple Response"
-    };
-  },
-  methods: {
-    uploadData() {
-      console.log('上传数据:', this.text);
-    },
-    handleKeyup(event) {
+  setup() {
+    let text = ref('')
+    const cnt = ref(1)
+    let showDialog = ref(false)
+    let messages = reactive([
+      {
+        id: 1,
+        msg: '欢迎来到聊天室~',
+        type: 'bot'
+      },
+    ])
+    let inputText = ref('')
+    let response = ref('')
+
+    function uploadData() {
+      console.log('上传数据:', text);
+    }
+
+    function handleKeyup(event) {
       if (event.keyCode === 32) {
         this.showDialog = true;
       } else {
         this.showDialog = false;
       }
-    },
-    //聊天相关方法
-    async onSubmit() {
-      if (this.inputText === '') {
-        return;
+    }
+
+    function onSubmit() {
+      if (inputText.value === '') {
+        console.log("请输入内容！")
+      } else {
+        cnt.value += 1
+        messages.push({
+          id:cnt.value,
+          msg:inputText.value,
+          type:'user'
+        })
+        // TODO: 与聊天机器人交互
+        let url = `http://api.qingyunke.com/api.php?key=free&appid=0&msg=${inputText.value}`
+        inputText.value = ''
+        axios.get(url)
+            .then((resp) => {
+              console.log(resp)
+              if (resp.status === 200){
+                response.value = resp.data.content
+                cnt.value += 1
+                console.log(response.value)
+                messages.push({
+                  id: cnt.value,
+                  msg: response.value,
+                  type: 'bot'
+                })
+
+              } else {
+                console.log('出错啦~')
+                cnt.value += 1
+                console.log(response.value)
+                messages.push({
+                  id: cnt.value,
+                  msg: '出错啦~',
+                  type: 'bot'
+                })
+              }
+
+            })
+
       }
-      this.messages.push({
-        id: this.messages.length + 1,
-        text: this.inputText,
-        type: 'user',
-      });
-      // TODO: 与聊天机器人交互
+    }
+    return {
+      text,
+      showDialog,
+      messages,
+      inputText,
+      uploadData,
+      onSubmit,
+      handleKeyup,
+    }
+  }
+}
 
-      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-      axios.get(`http://api.qingyunke.com/api.php?key=free&appid=0&msg=${this.inputText}`,{
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-          .then((response) => {
-            console.log(response.content);
-            this.response = response.content;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-      this.messages.push({
-        id: this.messages.length + 1,
-        text: this.response,
-        type: 'bot'
-      })
-      },
-    },
-  };
 </script>
 <style lang="less" scoped>
 #root {

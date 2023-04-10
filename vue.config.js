@@ -12,11 +12,9 @@ module.exports = defineConfig({
       Components({
         resolvers: [ElementPlusResolver()],
       }),
-    ],
+    ]
   },
   transpileDependencies: true,
-
-
 })
 
 // module.exports = {

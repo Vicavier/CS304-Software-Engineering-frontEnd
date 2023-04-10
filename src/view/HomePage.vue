@@ -126,7 +126,7 @@ export default {
     //methods
 
     function postQuestion(){
-      axios.post('http://10.26.5.9:8081/QA', {
+      axios.post('http://10.26.5.9:8081/Article/topic/save', {
         title: quick_QA.title,
         poster:'教父爷爷',
         is_anonymous: quick_QA.is_anonymous,
