@@ -51,7 +51,10 @@ export default {
   font-size: 18px;
   font-synthesis: style;
   font-weight: 600;
-  cursor:pointer;
+  cursor: pointer;
+}
+.title-content:hover{
+  color: rgb(248, 146, 12);
 }
 .content{
   width: 100%;
