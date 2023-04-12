@@ -51,6 +51,7 @@ export default {
   font-size: 18px;
   font-synthesis: style;
   font-weight: 600;
+  cursor:pointer;
 }
 .content{
   width: 100%;

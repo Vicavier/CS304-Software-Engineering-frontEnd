@@ -5,13 +5,15 @@
   </div>
 
   <div class="blogs" >
-    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
+    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)" @click="toEssay(content.id)"></BlogComponent>
   </div>
 </template>
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
-import {reactive, toRefs} from "vue";
+import {reactive, toRefs,ref} from "vue";
+import axios from "axios";
+import router from "@/router";
 // import axios from "axios";
 
 export default {
@@ -20,6 +22,7 @@ export default {
   },
   methods: {toRefs},
   setup(){
+    let content = ref('')
     const contentList = reactive([{
       id:0,
       title: '中国的监狱环境，是否会允许一个犯人每天数小时囚徒健身，练出一身腱子肉甚至绝世武功?',
@@ -54,7 +57,39 @@ export default {
         cover_url:'',
       },
     ])
+    function toEssay(id){
+      // axios.post('http://10.26.5.9:8010/article/getById',{
+      //   articleId:id
+      // }).then((resp)=>{
+      //   content = resp.data.content
+      // })
+      axios({
+        method: 'POST',
+        url: 'http://10.26.5.9:8010/article/getById',
+        params: {
+          id: id,
+        },
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        console.log(resp.data.log),
+        content = resp.data.log
+      })
 
+
+      router.push({
+        name:'article',
+        params:{
+          id,
+          content
+        }
+      });
+    }
     // onMounted(()=>{
     //   axios.post('http://10.26.5.9:8080').then((response)=>{
     //     console.log(response.data)
@@ -62,7 +97,8 @@ export default {
     //   })
     // })
     return {
-      contentList
+      contentList,
+      toEssay,
     }
   }
 }

@@ -38,6 +38,13 @@ const routes = [
             }
         ]
     },
+    {
+        path:'/article/:id',
+        name:'article',
+        component:()=>import('../view/mainpage/EssayContent'),
+        props:true
+
+    }
 
 
 ]
