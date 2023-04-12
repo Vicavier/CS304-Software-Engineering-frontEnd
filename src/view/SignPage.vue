@@ -3,47 +3,47 @@
     <div class="veen" >
       <div class="login-btn splits">
         <p>Already an user?</p>
-        <button class="active" @click = "login_click">Login</button>
+        <el-button class="active" @click = "login_click">Login</el-button>
       </div>
       <div class="rgstr-btn splits">
         <p>Don't have an account?</p>
-        <button @click="register_click">Register</button>
+        <el-button @click="register_click">Register</el-button>
       </div>
       <div v-bind:class="{'wrapper':login, 'wrapper move':!login}">
         <form id="login" tabindex="500">
           <h3>Login</h3>
           <div class="mail">
-            <input type="mail" name="">
-            <label>Mail or Username</label>
+            <input v-model="LoginForm.username">
+            <label>Username</label>
           </div>
           <div class="passwd">
-            <input type="password" name="">
+            <input type="password" name="" v-model="LoginForm.password">
             <label>Password</label>
           </div>
           <div class="submit">
-            <button class="dark">Login</button>
+            <el-button class="dark" @click="userLogin()">Login</el-button>
           </div>
         </form>
         <form id="register" tabindex="502">
           <h3>Register</h3>
-          <div class="name">
-            <input type="text" name="">
-            <label>Full Name</label>
+          <div class="name" >
+            <input type="text" name="" v-model="RegisterForm.nick_name">
+            <label>Nick Name</label>
           </div>
           <div class="mail">
-            <input type="mail" name="">
+            <input type="mail" name="" v-model="RegisterForm.email">
             <label>Mail</label>
           </div>
           <div class="uid">
-            <input type="text" name="">
+            <input type="text" name="" v-model="RegisterForm.username">
             <label>User Name</label>
           </div>
           <div class="passwd">
-            <input type="password" name="">
+            <input type="password" name="" v-model="RegisterForm.password">
             <label>Password</label>
           </div>
           <div class="submit">
-            <button class="dark">Register</button>
+            <el-button class="dark" >Register</el-button>
           </div>
         </form>
       </div>
@@ -55,29 +55,93 @@
 <script>
 import {ref} from "vue";
 import router from '../router'
+import Swal from "sweetalert2";
 export default {
-  setup(){
-    let login = ref(true)
-
+  data(){
+    return{
+      login :ref(true),
+      LoginForm:{
+        username:"Yuki",
+        password:"123"
+      },
+      RegisterForm:{
+        username:"yuki",
+        password:"123456",
+        nick_name:"yuki2",
+        email:"1122"
+      }
+    }
+  },
+  methods:{
     //methods
-    function register_click(){
-      this.login = false;
-      console.log(this.login);
-    }
-    function login_click() {
-      this.login = true;
-      console.log(this.login);
-    }
-    function toHomePage(){
-      router.push('/');
-    }
-    return {
-      login,
-      login_click,
-      register_click,
-      toHomePage
-    }
-  }
+    register_click(){
+  this.login = false;
+  console.log(this.login);
+},
+login_click() {
+  this.login = true;
+  console.log(this.login);
+},
+toHomePage(){
+  router.push('/');
+},
+    userLogin() {
+      console.log(this.LoginForm)
+      this.axios({
+        method:'POST',
+        // url: 'http://10.26.144.58:8010/account/login',
+        url: 'http://10.26.5.9:8010/account/login',
+        params:{
+          username: this.LoginForm.username,
+          password: this.LoginForm.password
+        }
+      }).then(function (response) {
+        // console.log(this.LoginForm);
+        Swal.fire({
+          icon: 'success',
+          title: '成功！',
+          text: '您已经成功登录!',
+        })
+        console.log(response);
+      }).catch(function (error) {
+            Swal.fire({
+              icon: 'error',
+              title: '失败！',
+              text: '您的账号或密码有误！',
+            })
+            console.log(error);
+          });
+    },
+    userRegister() {
+      // console.log(this.RegisterForm)
+      this.axios({
+        method:'POST',
+        // url: 'http://10.26.144.58:8010/account/register',
+        url: 'http://10.26.5.9:8010/account/register',
+        params:{
+          username: this.RegisterForm.username,
+          password: this.RegisterForm.password,
+          nick_name:this.RegisterForm.nick_name,
+          email:this.RegisterForm.email
+        }
+      }).then(function (response) {
+        // console.log(this.LoginForm);
+        Swal.fire({
+          icon: 'success',
+          title: '成功！',
+          text: '您已经成功注册账号!',
+        })
+        console.log(response);
+      }).catch(function (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '失败！',
+          text: '您注册失败',
+        })
+        console.log(error);
+      });
+    },
+  },
 }
 
 </script>
@@ -122,6 +186,7 @@ export default {
   background-clip: padding-box;
   position: relative;
   color: #FFF;
+  height:40px;
 //box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
   transition: all .25s;
 }

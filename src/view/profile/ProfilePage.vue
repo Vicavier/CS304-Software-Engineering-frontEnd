@@ -30,12 +30,14 @@
 <script>
 import QComponent from "@/view/profile/QComponent.vue";
 import AComponent from "@/view/profile/AComponent.vue";
-import bgComponent from "@/components/bgComponent.vue";
+// import bgComponent from "@/components/bgComponent.vue";
 import infoEdit from "@/view/profile/InfoEdit.vue";
 import router from "@/router";
 // import InfoEdit
 export default {
-  components:{infoEdit,QComponent, AComponent, bgComponent},
+  components:{infoEdit,QComponent, AComponent,
+    // bgComponent
+  },
   data(){
     return{
       nav:0,
@@ -69,12 +71,14 @@ export default {
 <style scoped>
 
 .user-cover-editor el-image {
+  overflow: hidden;
   width: 100%;
   height: 80px;
   z-index:-1;
 }
 
 .user-cover-editor el-button {
+  overflow: hidden;
   float:right;
   text-align:center;
   padding: 15px 30px 15px 30px;
@@ -82,6 +86,7 @@ export default {
 }
 
 .profile-info{
+  overflow: hidden;
   margin-top: 14px;
 }
 </style>
