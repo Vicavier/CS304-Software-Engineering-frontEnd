@@ -1,5 +1,6 @@
 <template>
-  <div class="header">
+  <div class="header" v-if="editting">
+    <div style="font-family: 'Microsoft YaHei';font-size: 20px; margin-bottom: 15px;margin-left: 175px" >更换头像</div>
     <el-upload
         class="avatar-uploader"
         action="http://10.26.5.9:8081/cloud_storage/file/uploading"
@@ -15,42 +16,65 @@
   </div>
 
   <div class="info">
-    <div class="changeInfo">
-      <el-button type="success" >修改个人资料</el-button>
-    </div>
     <el-form
         :label-position="labelPosition"
         label-width="100px"
         :model="formLabelAlign"
         style="max-width: 460px"
+        :disabled="!editting"
     >
       <el-form-item label="昵称">
-        <el-input v-model="formLabelAlign.name" />
+        <el-input v-model="formLabelAlign.nick_name" />
       </el-form-item>
-      <el-form-item label="性别">
-        <el-input v-model="formLabelAlign.gender" />
+      <el-form-item label="账号">
+        <el-input v-model="formLabelAlign.username" />
       </el-form-item>
-      <el-form-item label="个人简介">
-        <el-input v-model="formLabelAlign.introduction" />
+      <el-form-item label="密码">
+        <el-input v-model="formLabelAlign.password" />
+      </el-form-item>
+      <el-form-item label="邮箱">
+        <el-input v-model="formLabelAlign.email" />
       </el-form-item>
     </el-form>
     <div class="changeInfo">
-      <el-button type="primary" @click="onSubmit">保存修改</el-button>
-      <el-button @click="backToQ">取消</el-button>
+      <el-button type="success" v-if="!editting" @click="editting = true" >修改个人资料</el-button>
+      <el-button type="primary" v-if="editting" @click="onSubmit(
+          this.formLabelAlign.id,
+          this.formLabelAlign.username,
+          this.formLabelAlign.password,
+          this.formLabelAlign.nick_name,
+          this.formLabelAlign.email,
+          this.formLabelAlign.avatar,
+          this.formLabelAlign.background
+      )">保存修改</el-button>
+      <el-button v-if="editting" @click="backToQ()">取消</el-button>
     </div>
   </div>
 </template>
 
 <script>
 import {ref} from 'vue';
-import {reactive} from 'vue'
-
+// import {reactive} from 'vue'
+// import axios from "axios";
+import Swal from 'sweetalert2'
 export default {
   name:"infoEdit.vue",
   data(){
     return{
+      formLabelAlign:{
+        id:"123",
+        username: "Yuki",
+        password: "123456",
+        nick_name: "yuki_8ce",
+        email:"123456@qq.com",
+        avatar:"https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+        background:"https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
+        //id
+        //username, password, nick_name,email,avatar, background
+      },
       imageUrl:ref(''),
-      labelPosition: ref('right')
+      labelPosition: ref('right'),
+      editting:false
     }
   },
   methods:{
@@ -58,22 +82,46 @@ export default {
       console.log(resp)
       this.imageUrl = resp.data.url
     },
-    onSubmit() {
+    onSubmit(id, username, password, nick_name,email, avatar, background) {
+      // console.log(id, username, password, nick_name,email, avatar, background)
+      //YUKI:submit profile for updates
+      this.axios({
+        method:'POST',
+        url: 'http://10.26.5.9:8010/account/revise',
+        params:{
+          id:id,
+          username: username,
+          password: password,
+          nick_name: nick_name,
+          email:email,
+          avatar:avatar,
+          background:background
+        }
+      }).then(function (response) {
+        console.log(this.formLabelAlign);
+        Swal.fire({
+          icon: 'success',
+          title: '成功！',
+          text: '您已经成功修改资料并上传!',
+        })
+        console.log(response);
+      })
+          .catch(function (error) {
+            Swal.fire({
+              icon: 'error',
+              title: '失败！',
+              text: '上传资料失败',
+            })
+            console.log(error);
+          });
 
     },
     backToQ() {
-
+      this.editting = false;
     }
   },
   setup() {
-    const formLabelAlign = reactive({
-      name: 'Yuki',
-      gender: '女',
-      introduction: '计算机',
-    })
-    return{
-      formLabelAlign
-    }
+
   }
 }
 </script>
@@ -91,14 +139,14 @@ export default {
   height: 200px;
   margin-left: 150px;
   margin-right: 30px;
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 .info{
   height: 400px;
   margin-left: 100px;
   margin-right: 30px;
-  margin-top: 10px;
+  margin-top: 40px;
 }
 
 .avatar-hover img {
