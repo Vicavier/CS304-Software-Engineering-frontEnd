@@ -61,32 +61,40 @@ export default {
     return{
       login :true,
       LoginForm:{
-        username:"Yuki",
-        password:"123"
+        username:'',
+        password:''
       },
       RegisterForm:{
-        username:"yuki",
-        password:"123456",
-        nick_name:"yuki2",
-        email:"1122"
+        username:'',
+        password:'',
+        nick_name:'',
+        email:''
       }
     }
   },
   methods:{
     //methods
     register_click(){
-  this.login = false;
-  console.log(this.login);
-},
-login_click() {
-  this.login = true;
-  console.log(this.login);
-},
-toHomePage(){
-  router.push('/');
-},
+    this.login = false;
+    // console.log(this.login);
+  },
+  login_click() {
+    this.login = true;
+    // console.log(this.login);
+  },
+  toHomePage(){
+    router.push('/');
+  },
     userLogin() {
       // console.log(this.LoginForm)
+      if (this.LoginForm.username === '' || this.LoginForm.password === '') {
+        Swal.fire({
+          icon: 'error',
+          title: '失败！',
+          text: '您的账号或密码不能为空',
+        })
+        return;
+      }
       this.axios({
         method:'POST',
         // url: 'http://10.26.144.58:8010/account/login',
@@ -95,26 +103,34 @@ toHomePage(){
           username: this.LoginForm.username,
           password: this.LoginForm.password
         }
-      }).then(function (res) {
-        console.log(res);
-        if (res.data.status === 200) {
-          var userInfo = res.data.data;
-          this.$store.commit('$_setToken', userInfo.id); //token存的就是id
-        }
-        Swal.fire({
-          icon: 'success',
-          title: '成功！',
-          text: '您已经成功登录!',
-        })
-        router.push('/');
+      }).then(res => {
+        console.log(res.data.data);
 
+        if (res.data.state & (res.data.message === null)) {
+          // var userInfo = res.data.data;
+          // this.$store.commit('$_setToken', userInfo.id); //token存的就是id
+          Swal.fire({
+            icon: 'success',
+            title: '成功！',
+            text: '您已经成功登录!',
+          })
+          router.push('/');
+        } else
+        {
+          Swal.fire({
+            icon: 'error',
+            title: '失败！',
+            text: '您的账号或密码有误！',
+          })
+        }
       }).catch(function (error) {
+        console.log(error);
             Swal.fire({
               icon: 'error',
               title: '失败！',
-              text: '您的账号或密码有误！',
+              text: '网络连接问题',
             })
-            console.log(error);
+
           });
     },
     userRegister() {
@@ -146,12 +162,15 @@ toHomePage(){
           this.login = true;
         }
       }).catch(function (error) {
-        Swal.fire({
-          icon: 'error',
-          title: '失败！',
-          text: '您注册失败',
-        })
+
         console.log(error);
+
+          Swal.fire({
+            icon: 'error',
+            title: '失败！',
+            text: '网络问题',
+          })
+
       });
     },
   },
