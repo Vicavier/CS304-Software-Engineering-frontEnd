@@ -23,12 +23,14 @@
 export default {
   props:{
     content:{
-      id:Number,
+      id:String,
+      user_id:String,
       title: String,
       tags:Array,
       likes:Number,
       cover_url:String,
-
+      is_anonymous: Boolean,
+      content:String,
     }
   },
   setup(props){

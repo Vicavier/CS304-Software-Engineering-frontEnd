@@ -40,23 +40,17 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 // 引入你所使用的主题 此处以 github 主题为例
 
 import '@kangc/v-md-editor/lib/theme/style/github.css';
+import axios from "axios";
 
 
 export default {
-  props: ['id', 'content_url'],
+  props: ['id', 'title','author'],
   data() {
     return {
-      content: '# header1',
       article: {
-        title: '文章标题',
-        author: '文章作者',
-        content: '# 这些样式会给文章页面增加以下特点：\n' +
-            '\n' +
-            '## 文章部分宽度变为80%，居中展示，更加美观。\n' +
-            '## 文章标题和点赞按钮，评论按钮放在同一行，使用了弹性布局来让它们在水平方向上居中对齐。\n' +
-            '## 文章内容使用了较大的字号和行高，更加易读。\n' +
-            '## 文章底部的点赞和评论按钮，使用了更加明显的hover效果，更加易于使用者操作。\n' +
-            '### 评论部分样式更加美观，输入框宽度与父容器一致，使用下划线代替边框，更加简洁。提交评论按钮使用了与点赞和评论按钮相同的颜色和样式，呼应整个页面的设计。'
+        title: this.title,
+        author: this.author,
+        content: ''
       },
       likes: 0,
       comments: 0,
@@ -77,6 +71,26 @@ export default {
         this.getComments()
       }
     },
+    getContent(){
+      axios({
+        method:"POST",
+        url:'http://10.26.5.9:8010/article/getById',
+        // param:{id:this.article.id},
+        param:{id:'8334514235704446976'},
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        if (resp.status === 200){
+          this.article.content = resp.data.content
+        }
+      })
+    }
+,
     getComments() {
       // 使用Axios从后端API获取评论列表，并更新commentsList属性
       // 例如：
@@ -127,6 +141,9 @@ export default {
       this.commentContent = ''
       this.comments++
     }
+  },
+  mounted() {
+    this.getContent()
   }
 }
 </script>
