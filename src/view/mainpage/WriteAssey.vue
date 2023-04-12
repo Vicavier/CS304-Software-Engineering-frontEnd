@@ -77,6 +77,26 @@ export default {
 
     function uploadData() {
       console.log('上传数据:', text);
+      axios({
+        method: 'POST',
+        url: 'http://10.26.5.9:8010/article/save',
+        params: {
+          id:'',
+          title:'为什么老徐这么细?',
+          content: text.value,
+          user_id:'123',
+          is_anonymous: false
+        },
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        console.log(resp.data.log)
+      })
     }
 
     function handleKeyup(event) {
@@ -93,9 +113,9 @@ export default {
       } else {
         cnt.value += 1
         messages.push({
-          id:cnt.value,
-          msg:inputText.value,
-          type:'user'
+          id: cnt.value,
+          msg: inputText.value,
+          type: 'user'
         })
         // TODO: 与聊天机器人交互
         let url = `http://api.qingyunke.com/api.php?key=free&appid=0&msg=${inputText.value}`
@@ -103,7 +123,7 @@ export default {
         axios.get(url)
             .then((resp) => {
               console.log(resp)
-              if (resp.status === 200){
+              if (resp.status === 200) {
                 response.value = resp.data.content
                 cnt.value += 1
                 console.log(response.value)
@@ -128,6 +148,7 @@ export default {
 
       }
     }
+
     return {
       text,
       showDialog,
