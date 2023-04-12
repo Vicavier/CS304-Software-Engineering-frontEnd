@@ -18,6 +18,7 @@
         <!--主要路由区域-->
         <div class="main-content">
           <!-- v-me-editor 组件-->
+          <el-input v-model="title" placeholder="请输入标题" />
           <v-md-editor class="editor" v-model="text" height="800px" @keyup="handleKeyup"></v-md-editor>
         </div>
       </div>
@@ -58,11 +59,13 @@
 <script>
 import axios from 'axios';
 import {ref, reactive} from 'vue';
+import router from "@/router";
 
 export default {
 
   setup() {
     let text = ref('')
+    let title = ref('')
     const cnt = ref(1)
     let showDialog = ref(false)
     let messages = reactive([
@@ -81,8 +84,7 @@ export default {
         method: 'POST',
         url: 'http://10.26.5.9:8010/article/save',
         params: {
-          id:'',
-          title:'为什么老徐这么细?',
+          title: title.value,
           content: text.value,
           user_id:'123',
           is_anonymous: false
@@ -95,7 +97,9 @@ export default {
           return str;
         }]
       }).then(resp => {
-        console.log(resp.data.log)
+        if (resp.status === 200){
+          console.log("success!!")
+        }
       })
     }
 
@@ -143,20 +147,27 @@ export default {
                   type: 'bot'
                 })
               }
-
             })
-
       }
     }
-
+    function toHomePage(){
+      router.push('/');
+    }
+    function toSelfPage(){
+      //   TODO:检查是否登录，如未登录，需要跳转登录界面
+      router.push('/selfpage');
+    }
     return {
       text,
+      title,
       showDialog,
       messages,
       inputText,
       uploadData,
       onSubmit,
       handleKeyup,
+      toHomePage,
+      toSelfPage,
     }
   }
 }
