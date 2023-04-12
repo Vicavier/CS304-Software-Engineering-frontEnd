@@ -135,9 +135,14 @@ export default {
       })
     }
     function onLogin(){
-      axios.post('http://10.26.5.9:8081').then((response)=>{
-        console.log(response.data)
-      })
+      // axios.post('http://10.26.5.9:8081').then((response)=>{
+      //   console.log(response.data)
+      // })
+      if (window.localStorage.token) {
+        //YUKI:get userinfo's avatar and refresh the page
+      } else {
+        router.push('/sign');
+      }
     }
 
     function onRegister(){

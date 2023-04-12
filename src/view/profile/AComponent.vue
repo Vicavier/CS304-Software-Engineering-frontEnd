@@ -29,7 +29,7 @@ export default {
       title: '中国的监狱环境，是否会允许一个犯人每天数小时囚徒健身，练出一身腱子肉甚至绝世武功?',
       tags:['监狱','锻炼','武功'],
       likes:100,
-      cover_url:'https://image-attachment.oss-cn-beijing.aliyuncs.com/data/www/html/uc_server/data/avatar/002/37/19/19_avatar_middle.jpg?v=',
+      cover_url:'',
     }
     ,
       {

@@ -43,7 +43,7 @@
             <label>Password</label>
           </div>
           <div class="submit">
-            <el-button class="dark" >Register</el-button>
+            <el-button class="dark" @click="userRegister()">Register</el-button>
           </div>
         </form>
       </div>
@@ -53,13 +53,13 @@
 </template>
 
 <script>
-import {ref} from "vue";
+// import {ref} from "vue";
 import router from '../router'
 import Swal from "sweetalert2";
 export default {
   data(){
     return{
-      login :ref(true),
+      login :true,
       LoginForm:{
         username:"Yuki",
         password:"123"
@@ -86,7 +86,7 @@ toHomePage(){
   router.push('/');
 },
     userLogin() {
-      console.log(this.LoginForm)
+      // console.log(this.LoginForm)
       this.axios({
         method:'POST',
         // url: 'http://10.26.144.58:8010/account/login',
@@ -95,14 +95,19 @@ toHomePage(){
           username: this.LoginForm.username,
           password: this.LoginForm.password
         }
-      }).then(function (response) {
-        // console.log(this.LoginForm);
+      }).then(function (res) {
+        console.log(res);
+        if (res.data.status === 200) {
+          var userInfo = res.data.data;
+          this.$store.commit('$_setToken', userInfo.id); //token存的就是id
+        }
         Swal.fire({
           icon: 'success',
           title: '成功！',
           text: '您已经成功登录!',
         })
-        console.log(response);
+        router.push('/');
+
       }).catch(function (error) {
             Swal.fire({
               icon: 'error',
@@ -124,14 +129,22 @@ toHomePage(){
           nick_name:this.RegisterForm.nick_name,
           email:this.RegisterForm.email
         }
-      }).then(function (response) {
-        // console.log(this.LoginForm);
+      }).then((response) => {
+        console.log(response.data.state);
         Swal.fire({
           icon: 'success',
           title: '成功！',
           text: '您已经成功注册账号!',
         })
-        console.log(response);
+        if (!response.data.state) {
+          Swal.fire({
+            icon: 'error',
+            title: '失败！',
+            text: '您重复注册',
+          });
+        } else {
+          this.login = true;
+        }
       }).catch(function (error) {
         Swal.fire({
           icon: 'error',
