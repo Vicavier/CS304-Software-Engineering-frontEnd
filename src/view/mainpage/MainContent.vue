@@ -5,14 +5,14 @@
   </div>
 
   <div class="blogs">
-    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"
+    <BlogComponent v-for="(content,index) in contentList" :key="index" :content="toRefs(content)"
                    @click="toEssay(content)"></BlogComponent>
   </div>
 </template>
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
-import {reactive, toRefs,onMounted} from "vue";
+import {reactive, toRefs, onMounted} from "vue";
 
 import router from "@/router";
 import axios from "axios";
@@ -23,18 +23,7 @@ export default {
   },
   methods: {toRefs},
   setup() {
-    const contentList = reactive([
-      {
-        id:0,
-        user_id:'xx',
-        title:'sss',
-        tags:['ss','ss'],
-        likes:123,
-        cover_url:'',
-        is_anonymous: false,
-        content:'',
-      }
-    ])
+    const contentList = reactive([])
 
     function toEssay(cont) {
       router.push({
@@ -42,21 +31,16 @@ export default {
         params: {
           id: cont.id,
           title: cont.title,
-          author: cont.author,
+          author: cont.user_id,
         }
       });
     }
 
-    onMounted(()=>{
+    onMounted(() => {
       console.log('开始获取。。。')
       axios({
-        method:"POST",
-        url:'http://10.26.144.58:8010/article/getPage',
-
-        param:{
-          currentPage:1,
-          pageSize:5,
-        },
+        method: 'POST',
+        url: 'http://10.26.5.9:8010/article/getAllArticle',
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -66,10 +50,18 @@ export default {
         }]
       }).then(resp => {
         if (resp.status === 200){
-          console.log(resp.data.articleVoPage)
+          console.log(resp.data.data.data)
+          let list = resp.data.data.data
+          for (let i = 0; i < resp.data.data.data.length; i++) {
+
+            console.log(list[i])
+            contentList.push(list[i])
+          }
+          console.log(contentList)
         }
       })
     })
+
     return {
       contentList,
       toEssay,

@@ -19,12 +19,12 @@
       <div class="main-page">
         <div class="article-container">
           <div class="article-header">
-            <h1>{{ article.title }}</h1>
+            <h1>{{ this.title }}</h1>
           </div>
-          <div class="article-author">{{ article.author }}</div>
+          <div class="article-author">{{ this.author }}</div>
           <div>
 <!--            <v-md-preview :text="content"></v-md-preview>-->
-            <v-md-editor :model-value="this.article.content" mode="preview"></v-md-editor>
+            <v-md-editor :model-value="content" mode="preview"></v-md-editor>
           </div>
 
         </div>
@@ -41,42 +41,38 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 import axios from "axios";
+import {reactive,ref, onMounted} from "vue";
 
 
 export default {
-  props: ['id', 'title','author'],
-  data() {
-    return {
-      article: {
-        title: this.title,
-        author: this.author,
-        content: ''
-      },
-      likes: 0,
-      comments: 0,
-      commentsList: [],
-      commentAuthor: '',
-      commentContent: '',
-      showingComments: false
-    }
-  },
-  methods: {
-    likeArticle() {
+  props:['id','title','author'],
+
+  setup(){
+    console.log(this.id)
+
+    let content = ref('')
+    let likes = ref(0)
+    let comments = ref(0)
+    let commentsList = reactive([])
+    let commentAuthor =  ref('')
+    let commentContent = ref('')
+    let showingComments = ref(false)
+    function likeArticle() {
       this.likes++
-    },
-    showComments() {
+    }
+    function showComments() {
       this.showingComments = !this.showingComments
       if (this.showingComments) {
         // 获取并显示评论
         this.getComments()
       }
-    },
-    getContent(){
+    }
+    onMounted(() => {
+      console.log(this.id)
       axios({
         method:"POST",
         url:'http://10.26.5.9:8010/article/getById',
-        // param:{id:this.article.id},
-        param:{id:'8334514235704446976'},
+        param:{id:this.id},
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -86,12 +82,13 @@ export default {
         }]
       }).then(resp => {
         if (resp.status === 200){
-          this.article.content = resp.data.content
+          console.log(resp.data)
+          content = resp.data.content
         }
       })
-    }
-,
-    getComments() {
+    })
+
+    function getComments() {
       // 使用Axios从后端API获取评论列表，并更新commentsList属性
       // 例如：
       // axios.get('/api/comments')
@@ -111,8 +108,8 @@ export default {
         })
       }
       this.comments = numComments
-    },
-    postComment() {
+    }
+    function postComment() {
       // 使用Axios将用户提交的评论发送到后端API，以保存到数据库中
       // 例如：
       // axios.post('/api/comments', {
@@ -141,9 +138,22 @@ export default {
       this.commentContent = ''
       this.comments++
     }
-  },
-  mounted() {
-    this.getContent()
+
+    return {
+      content,
+      likes,
+      comments,
+      commentsList,
+      commentAuthor,
+      commentContent,
+      showingComments,
+      likeArticle,
+      showComments,
+      getComments,
+      postComment,
+
+
+    }
   }
 }
 </script>

@@ -86,7 +86,7 @@ export default {
         params: {
           title: title.value,
           content: text.value,
-          user_id:'123',
+          user_id:'8334557414694703104',
           is_anonymous: false
         },
         transformRequest: [function (data) {

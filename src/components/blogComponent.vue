@@ -5,7 +5,7 @@
     </div>
     <div class="tags">
       <el-tag class="ml-2" type="success" v-for="(item, index) in content.tags.value" :key="index">{{item}}</el-tag>
-      <img :src=content.cover_url.value v-show="content.cover_url.value !== ''"  style="height: 80px;float: right;margin-right: 35px">
+      <img :src=content.cover.value v-show="content.cover.value !== ''"  style="height: 80px;float: right;margin-right: 35px">
     </div>
 
     <div class="content-item">
@@ -23,12 +23,13 @@
 export default {
   props:{
     content:{
+      cnt:Number,
       id:String,
       user_id:String,
       title: String,
       tags:Array,
       likes:Number,
-      cover_url:String,
+      cover:String,
       is_anonymous: Boolean,
       content:String,
     }
