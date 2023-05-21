@@ -35,7 +35,7 @@
         <div id="link-button">
           <div class="nav-menu" @click="toHomePage"><i class="icon-home"></i> 首页</div>
           <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
-          <div class="nav-menu"><i class="icon-folder"></i> 收藏夹</div>
+          <div class="nav-menu" @click="toSecondHandPage"><i class="icon-folder"></i> 跳蚤市场</div>
           <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
         </div>
         <div class="search">
@@ -161,6 +161,9 @@ export default {
     function toWritePage(){
       router.push('/write');
     }
+    function toSecondHandPage(){
+      router.push('/secondhand')
+    }
     function toQAPage(){
       router.push('/write/QA')
     }
@@ -180,6 +183,7 @@ export default {
       toSelfPage,
       toHomePage,
       toWritePage,
+      toSecondHandPage,
       toQAPage,
     }
   },
@@ -216,7 +220,8 @@ export default {
 //}
 .nav-menu{
   height: 80px;
-  width: 60px;
+
+  min-width: 60px;
   text-align: center;
   float: left;
   margin: 0 10px 0 10px;

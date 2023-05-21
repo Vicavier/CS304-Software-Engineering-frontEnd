@@ -14,6 +14,10 @@ const routes = [
                 path:'selfpage',
                 component: ()=>import('../view/profile/ProfilePage.vue'),
             },
+            {
+                path:'secondhand',
+                component:()=>import('../view/mainpage/SecondHand.vue')
+            }
         ]
     },
     {

@@ -8,8 +8,8 @@
         </a>
       </div>
       <div id="link-button">
-        <div class="nav-menu" @click="toHomePage"><i class="icon-home"></i> 首页</div>
-        <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
+        <div class="nav-menu"><i class="icon-home"></i> 首页</div>
+        <div class="nav-menu"><i class="icon-user"></i> 我的</div>
         <div class="nav-menu"><i class="icon-folder"></i> 收藏夹</div>
         <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
       </div>
@@ -70,10 +70,11 @@ export default {
     }
     onMounted(async () => {
       console.log(props.id)
+    onMounted(() => {
+
       axios({
         method:"GET",
         url:`http://10.26.5.9:8010/article/getById?id=`+props.id,
-        // param:{id:props.id},
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {

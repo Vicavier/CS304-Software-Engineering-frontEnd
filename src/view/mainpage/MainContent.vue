@@ -1,7 +1,7 @@
 <template>
   <div class="main-content-nav">
-    <div class="main-content-nav-item">文章</div>
-    <div class="main-content-nav-item">问答</div>
+    <div id="article" class="main-content-nav-item" :class="{selected:selectDiv==='article'}"  @click="loadArticle()">文章</div>
+    <div id="Q&A" class="main-content-nav-item"  :class="{selected:selectDiv==='Q&A'}" @click="loadQA()">问答</div>
   </div>
 
   <div class="blogs">
@@ -12,7 +12,7 @@
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
-import {reactive, toRefs, onMounted} from "vue";
+import {reactive,ref, toRefs, onMounted} from "vue";
 
 import router from "@/router";
 import axios from "axios";
@@ -24,8 +24,9 @@ export default {
   methods: {toRefs},
   setup() {
     const contentList = reactive([])
-
+    let selectDiv = ref('article')
     function toEssay(cont) {
+      console.log(cont)
       router.push({
         name: 'article',
         params: {
@@ -35,7 +36,12 @@ export default {
         }
       });
     }
-
+    function loadArticle(){
+      selectDiv.value = 'article'
+    }
+    function loadQA(){
+      selectDiv.value = 'Q&A'
+    }
     onMounted(() => {
       console.log('开始获取。。。')
       axios({
@@ -65,6 +71,9 @@ export default {
     return {
       contentList,
       toEssay,
+      selectDiv,
+      loadArticle,
+      loadQA,
     }
   }
 }
@@ -76,7 +85,9 @@ export default {
   width: 100%;
   border-bottom: 1px solid #f0f2f7;
 }
-
+.selected {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
 .main-content-nav-item {
   height: 100%;
   float: left;
