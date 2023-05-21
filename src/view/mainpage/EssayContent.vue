@@ -68,8 +68,7 @@ export default {
         this.getComments()
       }
     }
-    onMounted(async () => {
-      console.log(props.id)
+
     onMounted(() => {
 
       axios({
