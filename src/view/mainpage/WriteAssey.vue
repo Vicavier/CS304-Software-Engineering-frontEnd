@@ -80,12 +80,16 @@ export default {
 
     function uploadData() {
       console.log('上传数据:', text);
+
       axios({
         method: 'POST',
         url: 'http://10.26.5.9:8010/article/save',
         params: {
+          //TODO:随机给一个id，id要是string类型
+          id:2,
           title: title.value,
           content: text.value,
+          //TODO：获取登录用户的userid，问问黄越痛
           user_id:'8334557414694703104',
           is_anonymous: false
         },
@@ -99,6 +103,7 @@ export default {
       }).then(resp => {
         if (resp.status === 200){
           console.log("success!!")
+          //TODO：给个弹窗表示成功
         }
       })
     }
@@ -148,6 +153,40 @@ export default {
                 })
               }
             })
+        // axios.post('https://api.openai.com/v1/engine/davinci/completions', {
+        //   prompt: inputText.value,
+        //   max_tokens: 50,
+        //   temperature: 0.5,
+        //   n: 1
+        // }, {
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': 'Bearer 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'
+        //   }
+        // })
+        //     .then(resp => {
+        //       console.log(resp)
+        //             if (resp.status === 200) {
+        //               response.value = resp.data.content
+        //               cnt.value += 1
+        //               console.log(response.value)
+        //               messages.push({
+        //                 id: cnt.value,
+        //                 msg: response.value,
+        //                 type: 'bot'
+        //               })
+        //
+        //             } else {
+        //               console.log('出错啦~')
+        //               cnt.value += 1
+        //               console.log(response.value)
+        //               messages.push({
+        //                 id: cnt.value,
+        //                 msg: '出错啦~',
+        //                 type: 'bot'
+        //               })
+        //             }
+        //           })
       }
     }
     function toHomePage(){

@@ -19,11 +19,12 @@
       <div class="main-page">
         <div class="article-container">
           <div class="article-header">
-            <h1>{{ this.title }}</h1>
+<!--            <h1>{{ this.title }}</h1>-->
+            <h1>title</h1>
           </div>
           <div class="article-author">{{ this.author }}</div>
           <div>
-<!--            <v-md-preview :text="content"></v-md-preview>-->
+            <!--            <v-md-preview :text="content"></v-md-preview>-->
             <v-md-editor :model-value="content" mode="preview"></v-md-editor>
           </div>
 
@@ -47,8 +48,8 @@ import {reactive,ref, onMounted} from "vue";
 export default {
   props:['id','title','author'],
 
-  setup(){
-    console.log(this.id)
+  setup(props){
+    console.log(props.id)
 
     let content = ref('')
     let likes = ref(0)
@@ -67,12 +68,12 @@ export default {
         this.getComments()
       }
     }
-    onMounted(() => {
-      console.log(this.id)
+    onMounted(async () => {
+      console.log(props.id)
       axios({
-        method:"POST",
-        url:'http://10.26.5.9:8010/article/getById',
-        param:{id:this.id},
+        method:"GET",
+        url:`http://10.26.5.9:8010/article/getById?id=`+props.id,
+        // param:{id:props.id},
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -82,8 +83,10 @@ export default {
         }]
       }).then(resp => {
         if (resp.status === 200){
-          console.log(resp.data)
-          content = resp.data.content
+          console.log(resp.status)
+          console.log(resp.data.data)
+          content.value = resp.data.data.article.content
+          console.log(content)
         }
       })
     })
