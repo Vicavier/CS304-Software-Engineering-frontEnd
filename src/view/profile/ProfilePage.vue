@@ -1,6 +1,5 @@
 <template>
   <div class="profile-main">
-    <!--   YUKI 4.8: profile header and main -->
     <div class="profile-header">
       <div class="user-cover-editor">
         <bg-component></bg-component>
@@ -23,6 +22,7 @@
     <div class="profile-items">
       <div v-if="nav === 0"><AComponent></AComponent></div>
       <div v-else-if="nav === 1"><QComponent ></QComponent></div>
+      <div v-if="nav === 2"><PersonalArticle></PersonalArticle></div>
       <div v-else-if="nav === 3"><infoEdit></infoEdit></div>
     </div>
   </div>
@@ -30,19 +30,19 @@
 <script>
 import QComponent from "@/view/profile/QComponent.vue";
 import AComponent from "@/view/profile/AComponent.vue";
-// import bgComponent from "@/components/bgComponent.vue";
+import PersonalArticle from "@/view/profile/PersonalArticle.vue";
 import infoEdit from "@/view/profile/InfoEdit.vue";
 import router from "@/router";
 // import InfoEdit
 export default {
-  components:{infoEdit,QComponent, AComponent,
+  components:{
+    PersonalArticle, infoEdit,QComponent, AComponent,
     // bgComponent
   },
   data(){
     return{
       nav:0,
       // userName:Yuki,
-
     }
   },
   methods:{

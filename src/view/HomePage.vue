@@ -8,7 +8,7 @@
 <!--          <div class="form">-->
 
 <!--            <el-form-item label="">-->
-<!--              <el-input v-model="form.username" placeholder="用户名/Username"/>-->
+<!--              <el-input v-model="form.username" placeholderF="用户名/Username"/>-->
 <!--            </el-form-item>-->
 <!--            <el-form-item label="">-->
 <!--              <el-input v-model="form.password" placeholder="密码/Password" type="password"/>-->

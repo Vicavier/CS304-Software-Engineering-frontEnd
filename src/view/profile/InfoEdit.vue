@@ -3,7 +3,7 @@
     <div style="font-family: 'Microsoft YaHei';font-size: 20px; margin-bottom: 15px;margin-left: 175px" >更换头像</div>
     <el-upload
         class="avatar-uploader"
-        action="http://10.26.5.9:8081/cloud_storage/file/uploading"
+        action="http://localhost:8081/cloud_storage/file/uploading"
         :show-file-list="true"
         accept="image/png, image/jpg, image/jpeg, image/gif"
         :on-success="handleAvatarSuccess"
@@ -39,13 +39,6 @@
     <div class="changeInfo">
       <el-button type="success" v-if="!editting" @click="editting = true" >修改个人资料</el-button>
       <el-button type="primary" v-if="editting" @click="onSubmit(
-          this.formLabelAlign.id,
-          this.formLabelAlign.username,
-          this.formLabelAlign.password,
-          this.formLabelAlign.nick_name,
-          this.formLabelAlign.email,
-          this.formLabelAlign.avatar,
-          this.formLabelAlign.background
       )">保存修改</el-button>
       <el-button v-if="editting" @click="backToQ()">取消</el-button>
     </div>
@@ -62,14 +55,13 @@ export default {
   data(){
     return{
       formLabelAlign:{
-        id:"123",
-        username: "Yuki",
-        password: "123456",
-        nick_name: "yuki_8ce",
-        email:"123456@qq.com",
-        avatar:"https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-        background:"https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
-        //id
+        id: localStorage.getItem("id"),
+        username: localStorage.getItem('username'),
+        password:localStorage.getItem('password'),
+        nick_name: localStorage.getItem('nickname'),
+        email: localStorage.getItem('email'),
+        avatar: localStorage.getItem('avatar'),
+        background: localStorage.getItem('background'),
         //username, password, nick_name,email,avatar, background
       },
       imageUrl:ref(''),
@@ -82,20 +74,19 @@ export default {
       console.log(resp)
       this.imageUrl = resp.data.url
     },
-    onSubmit(id, username, password, nick_name,email, avatar, background) {
-      // console.log(id, username, password, nick_name,email, avatar, background)
+    onSubmit() {
       //YUKI:submit profile for updates
       this.axios({
         method:'POST',
-        url: 'http://10.26.5.9:8010/account/revise',
+        url: 'http://localhost:8010/usercenter/edituserdata',
         params:{
-          id:id,
-          username: username,
-          password: password,
-          nick_name: nick_name,
-          email:email,
-          avatar:avatar,
-          background:background
+          id:this.formLabelAlign.id,
+          username: this.formLabelAlign.username,
+          password:this.formLabelAlign.password,
+          nick_name:this.formLabelAlign.nick_name,
+          email:this.formLabelAlign.email,
+          avatar:this.formLabelAlign.avatar,
+          background:this.formLabelAlign.background
         }
       }).then(function (response) {
         console.log(this.formLabelAlign);
@@ -120,9 +111,7 @@ export default {
       this.editting = false;
     }
   },
-  setup() {
 
-  }
 }
 </script>
 

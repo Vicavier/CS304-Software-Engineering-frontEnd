@@ -1,14 +1,67 @@
 <template>
- <div>
-   QComponent!!
- </div>
+  <div class="AComponent">
+    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
+  </div>
 </template>
 
 <script>
+import BlogComponent from "@/components/blogComponent.vue";
 
+import { toRefs} from "vue";
+import { ref } from 'vue';
+import axios from 'axios'
+import Swal from "sweetalert2";
 
 export default {
-  name: "QComponent.vue",
+  name: "AComponent.vue",
+  data(){
+    return{
+    }
+  },
+  methods: {
+    toRefs,
+  },
+  components: {
+    BlogComponent
+  },
+  setup(){
+    const contentList = ref([])
+    axios({
+      method:'GET',
+      url:'http://localhost:8010/userCenter/getUserTopics',
+      params:{
+        userId:'8348635264834412544'
+      }
+    }).then(res => {
+      const list = res.data.data.data;
+      const length = list.length;
+      for (let i = 0; i < length;i++) {
+        var temp = {
+          cnt: i+1,
+          id:list[i].id,
+          user_id: list[i].user_id,
+          title: list[i].title,
+          tags: [],
+          likes: list[i].likes,
+          cover: null,
+          is_anonymous: null,
+          content: null,
+        }
+        contentList.value.push(temp)
+      }
+      console.log(contentList.value)
+    }).catch(function (error) {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: '失败！',
+        text: '无法获取回答',
+      })
+    });
+    return{
+      contentList
+    }
+  }
 }
 </script>
 

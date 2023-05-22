@@ -6,14 +6,14 @@
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
-import QAComponent from "@/components/QAComponent.vue";
+
 import { toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'
 import Swal from "sweetalert2";
 
 export default {
-  name: "AComponent.vue",
+  name: "PersonalArticle.vue",
   data(){
     return{
     }
@@ -28,9 +28,9 @@ export default {
     const contentList = ref([])
     axios({
       method:'GET',
-      url:'http://localhost:8010/userCenter/getUserComments',
+      url:'http://localhost:8010/userCenter/getUserArticles',
       params:{
-        userId:'8348635264834412544'
+        userId:'8348642780250718208'
       }
     }).then(res => {
       const list = res.data.data.data;
@@ -40,16 +40,16 @@ export default {
           cnt: i+1,
           id:list[i].id,
           user_id: list[i].user_id,
-          title: list[i].topic_id,
-          tags: [],
+          title: list[i].title,
+          tags: list[i].tags,
           likes: list[i].likes,
-          cover: null,
+          cover: list[i].cover,
           is_anonymous: list[i].is_anonymous,
           content: list[i].content,
         }
         contentList.value.push(temp)
       }
-     console.log(contentList.value)
+      console.log(contentList.value)
     }).catch(function (error) {
       console.log(error);
       Swal.fire({

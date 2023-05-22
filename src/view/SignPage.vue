@@ -57,6 +57,7 @@
 import router from '../router'
 import Swal from "sweetalert2";
 export default {
+
   data(){
     return{
       login :true,
@@ -98,14 +99,20 @@ export default {
       this.axios({
         method:'POST',
         // url: 'http://10.26.144.58:8010/account/login',
-        url: 'http://10.26.5.9:8010/account/login',
+        // url: 'http://10.26.5.9:8010/account/login',
+        url:'http://localhost:8010/account/login',
         params:{
           username: this.LoginForm.username,
           password: this.LoginForm.password
         }
       }).then(res => {
-        console.log(res.data.data);
-
+        console.log(res.data.data.id);
+        localStorage.setItem('username',res.data.data.data.username)
+        localStorage.setItem('password',res.data.data.data.password)
+        localStorage.setItem('nickname',res.data.data.data.nick_name)
+        localStorage.setItem('email',res.data.data.data.email)
+        localStorage.setItem('avatar',res.data.data.data.avatar)
+        localStorage.setItem('background',res.data.data.data.background)
         if (res.data.state & (res.data.message === null)) {
           // var userInfo = res.data.data;
           // this.$store.commit('$_setToken', userInfo.id); //token存的就是id
@@ -132,13 +139,15 @@ export default {
             })
 
           });
+
     },
     userRegister() {
       // console.log(this.RegisterForm)
       this.axios({
         method:'POST',
         // url: 'http://10.26.144.58:8010/account/register',
-        url: 'http://10.26.5.9:8010/account/register',
+        // url: 'http://10.26.5.9:8010/account/register',
+        url:'http://localhost:8010/account/register',
         params:{
           username: this.RegisterForm.username,
           password: this.RegisterForm.password,
