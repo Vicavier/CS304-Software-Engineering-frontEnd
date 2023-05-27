@@ -45,7 +45,7 @@ export default {
     onMounted(() => {
       console.log('开始获取。。。')
       axios({
-        method: 'POST',
+        method: 'GET',
         url: 'http://10.26.5.9:8010/article/getAllArticle',
         transformRequest: [function (data) {
           let str = '';
@@ -103,4 +103,5 @@ export default {
   color: #8D99DE;
   cursor: pointer;
 }
+
 </style>

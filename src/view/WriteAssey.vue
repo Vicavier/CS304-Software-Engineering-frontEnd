@@ -3,7 +3,7 @@
     <el-header>
       <div id="logo">
         <a>
-          <img src="../../image/logo.png">
+          <img src="../image/logo.png">
         </a>
       </div>
       <div id="link-button">
@@ -90,7 +90,7 @@ export default {
           title: title.value,
           content: text.value,
           //TODO：获取登录用户的userid，问问黄越痛
-          user_id:'8334557414694703104',
+          user_id:'8348642780250718208',
           is_anonymous: false
         },
         transformRequest: [function (data) {
