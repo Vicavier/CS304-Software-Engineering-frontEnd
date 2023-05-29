@@ -108,13 +108,6 @@ export default {
           password: this.LoginForm.password
         }
       }).then(res => {
-        // console.log(res.data.data.id);
-        // localStorage.setItem('username', res.data.data.data.username)
-        // localStorage.setItem('password', res.data.data.data.password)
-        // localStorage.setItem('nickname', res.data.data.data.nick_name)
-        // localStorage.setItem('email', res.data.data.data.email)
-        // localStorage.setItem('avatar', res.data.data.data.avatar)
-        // localStorage.setItem('background', res.data.data.data.background)
         if (res.data.state & (res.data.message === null)) {
           this.checked = true
           /*------账号密码存储(cookie)-----*/
@@ -123,10 +116,12 @@ export default {
           console.log(userInfo)
           this.$global.setCookie('username', userInfo.username,1)
           this.$global.setCookie('password', userInfo.password, 1)
+          this.$global.setCookie('nickname',userInfo.nick_name,1)
+          this.$global.setCookie('email', userInfo.email,1)
+          this.$global.setCookie('avatar', userInfo.avatar,1)
+          this.$global.setCookie('background', userInfo.background,1)
           this.$global.setCookie('checked', this.checked,1)
-          console.log(this.$global.getCookie('username'))
-          console.log(this.$global.getCookie('password'))
-          console.log(this.$global.getCookie('checked'))
+          this.$global.setCookie('id',  userInfo.id,1)
           Swal.fire({
             icon: 'success',
             title: '成功！',

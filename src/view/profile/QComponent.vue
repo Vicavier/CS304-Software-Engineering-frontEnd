@@ -6,7 +6,7 @@
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
-
+import {getCookie} from "@/js/global";
 import { toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'
@@ -30,7 +30,7 @@ export default {
       method:'GET',
       url:'http://localhost:8010/userCenter/getUserTopics',
       params:{
-        userId:'8348635264834412544'
+        userId:getCookie('id')
       }
     }).then(res => {
       const list = res.data.data.data;

@@ -20,10 +20,10 @@ const routes = [
             }
         ]
     },
-    {
-        path:'/edit',
-        component:() => import('../view/profile/InfoEdit.vue')
-    },
+    // {
+    //     path:'/edit',
+    //     component:() => import('../view/profile/InfoEdit.vue')
+    // },
     {
         path:'/sign',
         component: ()=>import('../view/SignPage.vue'),

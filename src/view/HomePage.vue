@@ -61,6 +61,7 @@
         <div class="nav_right" v-show="!haveLogin">
           <div class="nav_right">
             <el-button type="primary" @click="onLogin">登录/注册</el-button>
+            <el-button type="primary" @click="LogOut" v-if="check">退出登录</el-button>
           </div>
         </div>
       </el-header>
@@ -110,9 +111,12 @@
 import {ref, reactive} from "vue";
 import axios from "axios";
 import router from "@/router";
+import {checkCookie, clearCookie} from "@/js/global";
+import Swal from "sweetalert2";
 export default {
   name:'HomePage',
   setup(){
+    let check = checkCookie()
     let haveLogin = ref(false)
     let defaultAvatar =  ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
     let quick_QA = reactive({
@@ -145,6 +149,20 @@ export default {
       }
     }
 
+    function LogOut(){
+      clearCookie()
+      router.push('/');
+      setTimeout(() => {
+        location.reload();
+      }, 1000); // 延迟1秒后刷新页面
+      Swal.fire({
+        icon: 'success',
+        title: '登出',
+        text: '您已登出账号！',
+      })
+      check = checkCookie()
+    }
+
     function onRegister(){
       axios.post('').then((response)=>{
         console.log(response.data)
@@ -153,7 +171,17 @@ export default {
 
     function toSelfPage(){
     //   TODO:检查是否登录，如未登录，需要跳转登录界面
-      router.push('/selfpage');
+      if (checkCookie()) {
+        //true
+        router.push('/selfpage');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '未登录',
+          text: '请先登录',
+        })
+        router.push('/sign');
+      }
     }
     function toHomePage(){
       router.push('/');
@@ -170,6 +198,8 @@ export default {
 
 
     return {
+      check,
+      LogOut,
       haveLogin,
       defaultAvatar,
       quick_QA,
