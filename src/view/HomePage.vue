@@ -1,30 +1,5 @@
 <template>
   <div id="root">
-<!--    <el-aside>-->
-
-<!--      <div id="user-info">-->
-
-
-<!--          <div class="form">-->
-
-<!--            <el-form-item label="">-->
-<!--              <el-input v-model="form.username" placeholderF="用户名/Username"/>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="">-->
-<!--              <el-input v-model="form.password" placeholder="密码/Password" type="password"/>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-checkbox v-model="form.keepalive" label="下次自动登录"/>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-button type="primary" @click="onLogin">登录</el-button>-->
-<!--              <el-button @click="onRegister">注册</el-button>-->
-<!--            </el-form-item>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--    </el-aside>-->
     <el-container>
       <el-header>
         <div id="logo">
@@ -37,6 +12,7 @@
           <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
           <div class="nav-menu" @click="toSecondHandPage"><i class="icon-folder"></i> 跳蚤市场</div>
           <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
+          <div class="nav-menu" @click="toShortVideo"><i class="icon-heart"></i> 短视频</div>
         </div>
         <div class="search">
           <el-input
@@ -97,7 +73,6 @@
             />
             <div style="margin: 10px 0">
               <el-button type="primary" @click="postQuestion">发布问题</el-button>
-              <el-button type="primary" @click="toWritePage">进入创作界面</el-button>
             </div>
           </div>
 
@@ -195,6 +170,9 @@ export default {
     function toQAPage(){
       router.push('/write/QA')
     }
+    function toShortVideo(){
+      router.push('/video')
+    }
 
 
     return {
@@ -215,6 +193,7 @@ export default {
       toWritePage,
       toSecondHandPage,
       toQAPage,
+      toShortVideo,
     }
   },
 

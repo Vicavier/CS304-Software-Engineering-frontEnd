@@ -14,10 +14,6 @@ const routes = [
                 path:'selfpage',
                 component: ()=>import('../view/profile/ProfilePage.vue'),
             },
-            {
-                path:'secondhand',
-                component:()=>import('../view/mainpage/SecondHand.vue')
-            }
         ]
     },
     // {
@@ -34,7 +30,7 @@ const routes = [
         children: [
             {
                 path:'',
-                component:()=>import('../view/mainpage/WriteAssey.vue'),
+                component:()=>import('../view/WriteAssey.vue'),
             },
             {
                 path:'QA',
@@ -48,6 +44,13 @@ const routes = [
         component:()=>import('../view/mainpage/EssayContent'),
         props:true
 
+    },
+    {
+        path:'/secondhand',
+        component:()=>import('../view/SecondHand.vue')
+    },{
+        path:'/video',
+        component:()=>import('../view/VideoPage.vue')
     }
 
 
