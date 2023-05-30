@@ -38,7 +38,7 @@ const routes = [
             },
             {
                 path: 'playVideo',
-                component: () => import('../components/videoComponent.vue')
+                component: () => import('../view/mainpage/VideoContent.vue')
             }
         ]
     },

@@ -62,6 +62,8 @@
 import BlogComponent from "@/components/blogComponent.vue";
 import QAComponent from "@/components/QAComponent.vue";
 import {reactive,ref, toRefs, onMounted} from "vue";
+import {EssayContentList} from "@/hook/EssayContentList";
+import {QAContentList} from "@/hook/QAContentList";
 
 import router from "@/router";
 import axios from "axios";
@@ -73,51 +75,8 @@ export default {
   },
   methods: {toRefs},
   setup() {
-    const contentList = reactive([
-      {
-        cnt: 1,
-        id: 1,
-        user_id: 32132131,
-        title: '母猪的产后护理',
-        tags: ['科技','动物'],
-        likes: 114,
-        cover: 'https://img.zhuwang.cc/2020/1130/20201130015554310.png',
-        is_anonymous: Boolean,
-        content: '常言道：今天的辛勤付出是为了明日更好的收获。母猪繁育无小事，各个环节都容不得三心二意，诸如题主所说的母猪产后护理，做的好不但能防止子宫内膜炎等疾病 …\n' +
-            '眼下大小猪价格皆',
-      },
-      {
-        cnt: 1,
-        id: 2,
-        user_id: 32132131,
-        title: '高等元素论',
-        tags: ['化学'],
-        likes: 233,
-        cover: 'https://pic2.zhimg.com/50/v2-0b7c25ce56a5bf5580961769cc1b961c_hd.jpg?source=1940ef5c',
-        is_anonymous: Boolean,
-        content: '666',
-      }
-    ])
-    const QAcontentList = reactive([
-      {
-        id:1,
-        title: '如何使用chatGPT',
-        views:23,
-        answers:3,
-        likes:43,
-        poster:'临界',
-        avatar_url:'https://avatars.githubusercontent.com/u/90630675?s=96&v=4'
-      },
-      {
-        id:2,
-        title: '怎样可以邀请薛其坤和我一起吃麦当劳？',
-        views:11,
-        answers:2,
-        likes:44,
-        poster:'piru',
-        avatar_url:'https://image-attachment.oss-cn-beijing.aliyuncs.com/data/www/html/uc_server/data/avatar/002/37/19/19_avatar_middle.jpg?v='
-      }
-    ])
+    const contentList = EssayContentList
+    const QAcontentList = QAContentList
     let selectDiv = ref('article')
     let quick_QA = reactive({
       title: '',

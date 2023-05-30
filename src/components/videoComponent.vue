@@ -16,6 +16,7 @@ export default {
   setup() {
     const options = reactive({
       src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+      width:'100%',
     })
     return {
       options
