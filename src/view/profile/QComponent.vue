@@ -1,19 +1,19 @@
 <template>
   <div class="AComponent">
-    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
+    <QAComponent v-for="(QAContent, index) in QAcontentList" :key="index" :QAContent="toRefs(QAContent)"></QAComponent>
   </div>
 </template>
 
 <script>
-import BlogComponent from "@/components/blogComponent.vue";
+// import BlogComponent from "@/components/blogComponent.vue";
 import {getCookie} from "@/js/global";
-import { toRefs} from "vue";
+import {reactive, toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'
 import Swal from "sweetalert2";
 
 export default {
-  name: "AComponent.vue",
+  name: "QComponent.vue",
   data(){
     return{
     }
@@ -22,34 +22,35 @@ export default {
     toRefs,
   },
   components: {
-    BlogComponent
+
   },
   setup(){
     const contentList = ref([])
+    const QAcontentList = reactive([])
     axios({
       method:'GET',
       url:'http://10.26.5.9:8010/userCenter/getUserTopics',
       params:{
         userId:getCookie('id')
       }
-    }).then(res => {
+    }).then(res =>
+    {
+      console.log(res.data.data.data)
       const list = res.data.data.data;
       const length = list.length;
       for (let i = 0; i < length;i++) {
         var temp = {
-          cnt: i+1,
           id:list[i].id,
-          user_id: list[i].user_id,
           title: list[i].title,
-          tags: [],
-          likes: list[i].likes,
-          cover: null,
-          is_anonymous: null,
-          content: null,
+          views:list[i].views,
+          answers:list[i].answers,
+          likes:list[i].likes,
+          poster:null,
+          avatar_url:null
         }
-        contentList.value.push(temp)
+        QAcontentList.push(temp)
       }
-      console.log(contentList.value)
+      console.log(QAcontentList)
     }).catch(function (error) {
       console.log(error);
       Swal.fire({
@@ -57,9 +58,12 @@ export default {
         title: '失败！',
         text: '无法获取回答',
       })
-    });
+    }
+
+    );
     return{
-      contentList
+      contentList,
+      QAcontentList
     }
   }
 }

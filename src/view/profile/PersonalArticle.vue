@@ -1,6 +1,7 @@
 <template>
   <div class="AComponent">
-    <BlogComponent v-for="content in contentList" :key="content.id" :content="toRefs(content)"></BlogComponent>
+    <BlogComponent v-for="(content,index) in contentList" :key="index" :content="toRefs(content)"
+                   @click="toEssay(content)"></BlogComponent>
   </div>
 </template>
 
@@ -8,10 +9,11 @@
 import BlogComponent from "@/components/blogComponent.vue";
 
 import { toRefs} from "vue";
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import axios from 'axios'
 import Swal from "sweetalert2";
 import {getCookie} from "@/js/global";
+import router from "@/router";
 
 export default {
   name: "PersonalArticle.vue",
@@ -26,7 +28,18 @@ export default {
     BlogComponent
   },
   setup(){
-    const contentList = ref([])
+    function toEssay(cont) {
+      console.log(cont)
+      router.push({
+        name: 'article',
+        params: {
+          id: cont.id,
+          title: cont.title,
+          author: cont.user_id,
+        }
+      });
+    }
+    const contentList = reactive([])
     axios({
       method:'GET',
       url:'http://10.26.5.9:8010/userCenter/getUserArticles',
@@ -37,20 +50,20 @@ export default {
       const list = res.data.data.data;
       const length = list.length;
       for (let i = 0; i < length;i++) {
-        var temp = {
-          cnt: i+1,
-          id:list[i].id,
-          user_id: list[i].user_id,
-          title: list[i].title,
-          tags: list[i].tags,
-          likes: list[i].likes,
-          cover: list[i].cover,
-          is_anonymous: list[i].is_anonymous,
-          content: list[i].content,
-        }
-        contentList.value.push(temp)
+        // var temp = {
+        //   cnt: i+1,
+        //   id:list[i].id,
+        //   user_id: list[i].user_id,
+        //   title: list[i].title,
+        //   tags: list[i].tags,
+        //   likes: list[i].likes,
+        //   cover: list[i].cover,
+        //   is_anonymous: list[i].is_anonymous,
+        //   content: list[i].content,
+        // }
+        contentList.push(list[i])
       }
-      console.log(contentList.value)
+      console.log(contentList)
     }).catch(function (error) {
       console.log(error);
       Swal.fire({
@@ -60,7 +73,8 @@ export default {
       })
     });
     return{
-      contentList
+      contentList,
+      toEssay
     }
   }
 }

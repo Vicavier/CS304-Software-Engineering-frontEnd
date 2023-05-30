@@ -36,7 +36,7 @@
         <div class="nav_right" v-if="check">
           <div class="nav_avatar">
             <el-avatar shape="square" :size="50" :fit="'fill'" :src="avatar" />
-            歡迎 {{nickname}}
+            欢迎{{nickname}}
           </div>
         </div>
       </el-header>
