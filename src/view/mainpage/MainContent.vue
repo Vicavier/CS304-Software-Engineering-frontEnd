@@ -73,6 +73,7 @@ import {reactive,ref, toRefs, onMounted} from "vue";
 import {getCookie} from "@/js/global";
 import router from "@/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -237,7 +238,14 @@ export default {
           }]
         }).then(resp => {
           if (resp.status === 200){
-            console.log("ok!!")
+            Swal.fire({
+              icon: 'success',
+              title: '问题发布',
+              text: '您的问题已经成功发布！',
+            })
+            // setTimeout(() => {
+            //   location.reload();
+            // }, 500); // 延迟0.5秒后刷新页面
           }
         })
       }

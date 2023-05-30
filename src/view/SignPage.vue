@@ -132,7 +132,7 @@ export default {
           Swal.fire({
             icon: 'error',
             title: '失败！',
-            text: res.data.message,
+            text: '沒有這個用戶或者賬號密碼有誤',
           })
         }
       })
