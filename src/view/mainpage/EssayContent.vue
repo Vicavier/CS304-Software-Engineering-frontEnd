@@ -168,10 +168,10 @@ export default {
           console.log(resp.data.data.articleComments)
           //TODO:这里我忘记怎么解析评论了
           for (let i = 0; i < resp.data.data.articleComments.length; i++) {
-            console.log("评论")
+            console.log("评论" + i)
             commentsList.push(resp.data.data.articleComments[i])
             console.log(commentsList[i].user_id)
-            let name = ""
+            let name = ref("")
 
             axios({
               method: "GET",
@@ -185,18 +185,19 @@ export default {
               }]
             }).then(resp => {
               if (resp.status === 200) {
-                console.log("获得" + commentsList[i].user_id + "的用户名")
-                author.value = resp.data.data.data.username
-                console.log(author.value)
-                name = author.value
+                name.value = resp.data.data.data.username
+                console.log("获得" + commentsList[i].user_id + "的用户名 " + name.value)
+                console.log(name.value)
+                commentsList[i].name = name.value
               }
             })
-            console.log(name)
-            commentsList[i].name = name
+
+            console.log("提取完评论"+i)
+
+            // console.log(name.value)
+            // console.log(commentsList[i].name)
           }
 
-
-          console.log(commentsList[0])
         }
       })
 
@@ -362,7 +363,7 @@ export default {
   text-align: center;
   float: left;
   margin: 0 10px 0 10px;
-  background-color: rgba(238, 159, 6, 0.4);
+  /*background-color: rgba(238, 159, 6, 0.4);*/
 }
 
 .nav-menu:hover {
