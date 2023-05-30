@@ -3,7 +3,7 @@
     <div style="font-family: 'Microsoft YaHei';font-size: 20px; margin-bottom: 15px;margin-left: 175px" >更换头像</div>
     <el-upload
         class="avatar-uploader"
-        action="http://localhost:8081/cloud_storage/file/uploading"
+        action="http://10.26.5.9:8081/cloud_storage/file/uploading"
         :show-file-list="false"
         accept="image/png, image/jpg, image/jpeg, image/gif"
         :on-success="handleAvatarSuccess"
@@ -80,7 +80,7 @@ export default {
       //YUKI:submit profile for updates
       this.axios({
         method:'POST',
-        url: 'http://localhost:8010/userCenter/editUserData',
+        url: 'http://10.26.5.9:8010/userCenter/editUserData',
         params:{
           id:this.formLabelAlign.id,
           username: this.formLabelAlign.username,

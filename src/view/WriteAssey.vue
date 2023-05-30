@@ -45,6 +45,8 @@
 import axios from 'axios';
 import {ref, reactive} from 'vue';
 import router from "@/router";
+import {getCookie} from "@/js/global";
+import Swal from "sweetalert2";
 
 export default {
 
@@ -62,20 +64,26 @@ export default {
     ])
     let inputText = ref('')
     let response = ref('')
-
+    function generateRandomString(length) {
+      var result           = '';
+      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    }
     function uploadData() {
       console.log('上传数据:', text);
-
+      let randomId = generateRandomString(10) // 生成一个长度
       axios({
         method: 'POST',
         url: 'http://10.26.5.9:8010/article/save',
         params: {
-          //TODO:随机给一个id，id要是string类型
-          id:2,
+          id:randomId,
           title: title.value,
           content: text.value,
-          //TODO：获取登录用户的userid，问问黄越痛
-          user_id:'8348642780250718208',
+          user_id: getCookie('id'),
           is_anonymous: false
         },
         transformRequest: [function (data) {
@@ -88,7 +96,11 @@ export default {
       }).then(resp => {
         if (resp.status === 200){
           console.log("success!!")
-          //TODO：给个弹窗表示成功
+          Swal.fire({
+            icon: 'success',
+            title: '成功！',
+            text: '您已成功上传文章!',
+          })
         }
       })
     }

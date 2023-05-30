@@ -29,7 +29,7 @@ export default {
     const contentList = ref([])
     axios({
       method:'GET',
-      url:'http://localhost:8010/userCenter/getUserComments',
+      url:'http://10.26.5.9:8010/userCenter/getUserComments',
       params:{
         userId:getCookie('id')
       }

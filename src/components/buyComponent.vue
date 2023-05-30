@@ -6,8 +6,7 @@
     </div>
     <div class="Sell-content">
       <div class="question-poster">
-        <img :src=buyContent.avatar_url style="width: 50px;">
-        {{buyContent.poster}}
+        {{buyContent.poster}}:{{buyContent.contact}}
       </div>
     </div>
   </div>

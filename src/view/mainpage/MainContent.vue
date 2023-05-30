@@ -44,10 +44,16 @@
         </div>
         <div class="quick-QA">
           <el-input
-              v-model="quick_QA.content"
+              v-model="quick_QA.title"
               :autosize="{ minRows: 2, maxRows: 4 }"
               type="textarea"
               placeholder="快速提问"
+          />
+          <el-switch
+              v-model="quick_QA.is_anonymous"
+              size="large"
+              active-text="是否匿名提问"
+              inactive-text="Close"
           />
           <div style="margin: 10px 0">
             <el-button type="primary" @click="postQuestion">发布问题</el-button>
@@ -62,9 +68,9 @@
 import BlogComponent from "@/components/blogComponent.vue";
 import QAComponent from "@/components/QAComponent.vue";
 import {reactive,ref, toRefs, onMounted} from "vue";
-import {EssayContentList} from "@/hook/EssayContentList";
-import {QAContentList} from "@/hook/QAContentList";
-
+// import {EssayContentList} from "@/hook/EssayContentList";
+// import {QAContentList} from "@/hook/QAContentList";
+import {getCookie} from "@/js/global";
 import router from "@/router";
 import axios from "axios";
 
@@ -75,8 +81,20 @@ export default {
   },
   methods: {toRefs},
   setup() {
-    const contentList = EssayContentList
-    const QAcontentList = QAContentList
+    const contentList = reactive([
+      {
+        cnt: 1,
+        id: 2,
+        user_id: 32132131,
+        title: '高等元素论',
+        tags: ['化学'],
+        likes: 233,
+        cover: 'https://pic2.zhimg.com/50/v2-0b7c25ce56a5bf5580961769cc1b961c_hd.jpg?source=1940ef5c',
+        is_anonymous: Boolean,
+        content: '666',
+      }
+    ])
+    const QAcontentList = reactive([])
     let selectDiv = ref('article')
     let quick_QA = reactive({
       title: '',
@@ -98,28 +116,6 @@ export default {
     function loadArticle(){
       selectDiv.value = 'article'
       showBlogs.value = true
-    }
-    function loadQA(){
-      selectDiv.value = 'Q&A'
-      showBlogs.value = false
-    }
-    function toWritePage(){
-      router.push('/write');
-    }
-    function toQAPage(){
-      router.push('/write/QA')
-    }
-    function postQuestion(){
-      axios.post('http://10.26.5.9:8081/Article/topic/save', {
-        title: quick_QA.title,
-        poster:'教父爷爷',
-        is_anonymous: quick_QA.is_anonymous,
-      }).then((response)=>{
-        console.log(response.data)
-      })
-    }
-    onMounted(() => {
-      console.log('开始获取。。。')
       axios({
         method: 'GET',
         url: 'http://10.26.5.9:8010/article/getAllArticle',
@@ -132,6 +128,9 @@ export default {
         }]
       }).then(resp => {
         if (resp.status === 200){
+          while(contentList.length){
+            contentList.pop()
+          }
           console.log(resp.data.data.data)
           let list = resp.data.data.data
           for (let i = 0; i < resp.data.data.data.length; i++) {
@@ -142,6 +141,113 @@ export default {
           console.log(contentList)
         }
       })
+    }
+    function loadQA(){
+
+      selectDiv.value = 'Q&A'
+      showBlogs.value = false
+      axios({
+        method: 'GET',
+        url: 'http://10.26.5.9:8010/topic/all',
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        if (resp.status === 200){
+          console.log(resp.data.data.topics)
+          let list = resp.data.data.topics
+          for (let i = 0; i < list.length; i++) {
+            console.log(list[i])
+            if (list[i].is_anonymous){
+              QAcontentList.push({
+                id:list[i].id,
+                title: list[i].title,
+                views:list[i].views,
+                answers:list[i].answers,
+                likes:list[i].likes,
+                poster:'匿名',
+                avatar_url:'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
+              })
+            } else {
+              let poster = ''
+              let avatar_url = ''
+              axios({
+                method: 'GET',
+                url: 'http://10.26.5.9:8010/userCenter/getUserData',
+                params:{
+                  userId:list[i].user_id,
+                },
+                transformRequest: [function (data) {
+                  let str = '';
+                  for (let key in data) {
+                    str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+                  }
+                  return str;
+                }]
+              }).then(userData => {
+                if (userData.status === 200){
+                  poster = userData.data.data.data.username
+                  avatar_url = userData.data.data.data.avatar
+                }
+              })
+
+              QAcontentList.push({
+                id:list[i].id,
+                title: list[i].title,
+                views:list[i].views,
+                answers:list[i].answers,
+                likes:list[i].likes,
+                poster:poster,
+                avatar_url:avatar_url,
+              })
+
+            }
+
+          }
+          console.log(QAcontentList)
+        }
+      })
+    }
+    function toWritePage(){
+      router.push('/write');
+    }
+    function toQAPage(){
+      router.push('/write/QA')
+    }
+    function postQuestion(){
+      if (getCookie('id')){
+        axios({
+          method: 'POST',
+          url: 'http://10.26.5.9:8010/topic/save',
+          params:{
+            title: quick_QA.title,
+            is_Anonymous: quick_QA.is_anonymous,
+            user_id:getCookie('id'),
+          },
+          transformRequest: [function (data) {
+            let str = '';
+            for (let key in data) {
+              str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+            }
+            return str;
+          }]
+        }).then(resp => {
+          if (resp.status === 200){
+            console.log("ok!!")
+          }
+        })
+      }
+      else {
+        router.push('/sign')
+      }
+    }
+    onMounted(() => {
+      console.log('开始获取。。。')
+      loadArticle()
     })
 
     return {

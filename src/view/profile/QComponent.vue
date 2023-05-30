@@ -28,7 +28,7 @@ export default {
     const contentList = ref([])
     axios({
       method:'GET',
-      url:'http://localhost:8010/userCenter/getUserTopics',
+      url:'http://10.26.5.9:8010/userCenter/getUserTopics',
       params:{
         userId:getCookie('id')
       }

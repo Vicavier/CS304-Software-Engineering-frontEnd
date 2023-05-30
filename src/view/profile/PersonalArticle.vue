@@ -28,7 +28,7 @@ export default {
     const contentList = ref([])
     axios({
       method:'GET',
-      url:'http://localhost:8010/userCenter/getUserArticles',
+      url:'http://10.26.5.9:8010/userCenter/getUserArticles',
       params:{
         userId:'8348642780250718208'
       }

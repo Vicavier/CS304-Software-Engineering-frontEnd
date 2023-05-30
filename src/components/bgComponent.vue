@@ -2,7 +2,7 @@
   <div class="upload-area">
     <div :style="{ backgroundImage: `url(${imageUrl})`, backgroundColor:'#A9A9A9' }">
       <el-upload
-          action="http://localhost:8081/cloud_storage/file/uploading"
+          action="http://10.26.5.9:8081/cloud_storage/file/uploading"
           :show-file-list="false"
           accept="image/png, image/jpg, image/jpeg, image/gif"
           :on-success="handleFileUpload">
@@ -31,7 +31,7 @@ export default {
     handleFileUpload(res) {
      axios({
        method: 'POST',
-       url: 'http://localhost:8010/userCenter/editUserData',
+       url: 'http://10.26.5.9:8010/userCenter/editUserData',
        params: {
          username: this.$global.getCookie('username'),
          password: this.$global.getCookie('password'),

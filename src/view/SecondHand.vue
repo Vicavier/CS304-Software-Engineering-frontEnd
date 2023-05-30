@@ -39,18 +39,24 @@
           <div class="info-form">
             <el-form :model="stuffInfo" >
               <el-form-item label="物品名称">
-                <el-input v-model="stuffInfo.name" />
+                <el-input v-model="stuffInfo.name" placeholder="出/收物品的名称"/>
               </el-form-item>
               <el-form-item label="预估价格">
                 <el-input v-model="stuffInfo.price" />
               </el-form-item>
+              <el-form-item label="联系人">
+                <el-input v-model="stuffInfo.publisher" placeholder="联系人姓名"/>
+              </el-form-item>
+              <el-form-item label="联系方式">
+                <el-input v-model="stuffInfo.contact" placeholder="联系方式（微信号/QQ号）"/>
+              </el-form-item>
               <el-form-item label="出售/收购">
-                <el-radio-group v-model="stuffInfo.sell">
-                  <el-radio label="出" />
-                  <el-radio label="收" />
+                <el-radio-group v-model="stuffInfo.is_buyer">
+                  <el-radio :label="false">出</el-radio>
+                  <el-radio :label="true">收</el-radio>>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item v-if="stuffInfo.sell ==='出'">
+              <el-form-item v-if="stuffInfo.is_buyer === true">
                 <el-upload
                     v-model:file-list="imageFile"
                     class="upload-demo"
@@ -58,7 +64,7 @@
                     :on-success="handleSuccess"
                     id="bnt"
                 >
-
+                  <el-button type="primary">Click to upload</el-button>
                   <template #tip>
                     <div class="el-upload__tip">
                       jpg/png files with a size less than 500kb
@@ -79,7 +85,7 @@
         </div>
         <div class="quick-QA">
           <div style="margin: 10px 0">
-            <el-button type="primary" @click="postQuestion">发布问题</el-button>
+            <el-button type="primary" @click="submit">发布</el-button>
           </div>
         </div>
       </div>
@@ -95,8 +101,7 @@ import {ref, reactive, toRefs, onMounted} from "vue"
 import SellComponent from "@/components/sellComponent.vue";
 import BuyComponent from "@/components/buyComponent.vue";
 import router from "@/router";
-import {sellContentList} from "@/hook/SellContentList";
-import {buyContentList} from "@/hook/BuyContentList";
+import axios from "axios";
 
 export default {
   components: {
@@ -107,24 +112,18 @@ export default {
   setup() {
     let selectDiv = ref('sell')
     let imageUrl = ref()
-    let imageFile = reactive([
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-      {
-        name: 'food2.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-    ])
+    let imageFile = reactive([])
     const uploadActionUrl = ref('http://10.26.5.9:8081/cloud_storage/file/uploading')
     let stuffInfo = reactive({
-      name:'出&收物品名称',
+      name:'',
+      picture:'',
+      publisher:'',
+      is_buyer:false,
+      contact:'',
       price:0,
-      sell:'sell',
     })
-    const contentList = sellContentList
-    const buycontentList = buyContentList
+    const contentList = reactive([])
+    const buycontentList = reactive([])
     let showSell = ref(true)
 
     function loadSell() {
@@ -138,13 +137,82 @@ export default {
       selectDiv.value = 'buy'
       showSell.value = false
     }
+
+    function loadOrder(){
+      axios({
+        method: 'GET',
+        url: 'http://10.26.5.9:8010/order/getAll',
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        if (resp.status === 200){
+          console.log(resp.data.data)
+          let list = resp.data.data.order
+          console.log(list)
+          for (let i = 0;i < list.length;i++){
+            if (list[i].status ===0){
+              buycontentList.push({
+                id:list[i].id,
+                stuff:list[i].name,
+                poster:list[i].buyer,
+                contact:list[i].buyer_contact,
+                price:list[i].price,
+              })
+            } else {
+              contentList.push({
+                id:list[i].id,
+                stuff: list[i].name,
+                images: list[i].picture,
+                poster: list[i].seller,
+                contact:list[i].seller_contact,
+                avatar_url: 'https://avatars.githubusercontent.com/u/77684181?s=96&v=4',
+                price: list[i].price,
+              })
+            }
+          }
+          console.log(buycontentList)
+          console.log(contentList)
+        }
+      })
+    }
     function handleSuccess(resp){
-      imageUrl = resp.data.url
+      imageUrl.value = resp.data.url
       console.log(imageUrl)
+      stuffInfo.picture = imageUrl.value
     }
 
     function submit(){
-      console.log(stuffInfo.sell)
+      console.log(stuffInfo)
+      axios({
+        method: 'POST',
+        url: 'http://10.26.5.9:8010/order/add',
+        params: {
+          //TODO:随机给一个id，id要是string类型
+          name: stuffInfo.name,
+          picture: stuffInfo.picture,
+          publisher:stuffInfo.publisher,
+          is_buyer:stuffInfo.is_buyer,
+          contact:stuffInfo.contact,
+          price:stuffInfo.price,
+        },
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        if (resp.status === 200){
+          console.log("success!!")
+          //TODO：给个弹窗表示成功
+        }
+      })
     }
     function toHomePage(){
       router.push('/');
@@ -155,9 +223,8 @@ export default {
     }
     onMounted(() => {
       console.log('获取出收物品...')
-      //TODO:获取sell或buy对应的信息
-      // contentList.push()
-      console.log('物品获取完成...')
+      loadOrder()
+      loadSell()
     })
     return {
       selectDiv,
@@ -288,13 +355,6 @@ export default {
   justify-content: center;
 }
 
-.upload-panel {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
 .info-form{
   margin:0 auto;
   width: 80%;
@@ -419,7 +479,7 @@ export default {
   border-color: var(--el-color-primary);
 }
 
-input[name*=file]{
+input[type="file"]{
   display: none!important;
 }
 </style>

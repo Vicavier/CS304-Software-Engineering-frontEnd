@@ -159,18 +159,7 @@ export default {
   }
 }
 </script>
-<style>
-.el-header {
-  height: 80px;
-  width: 100%;
-  position: fixed;
-  line-height: 80px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 1px 3px hsla(0, 0%, 7%, .1);
-  overflow: hidden;
-  z-index: 99;
-}
-
+<style scoped>
 .el-header #logo {
   height: 50px;
   line-height: 80px;
@@ -189,30 +178,6 @@ export default {
 .nav-menu:hover {
   border-bottom: 5px solid #e76e0d;
   cursor: pointer;
-}
-
-.search {
-  float: left;
-  width: 500px;
-  margin-left: 30px;
-}
-
-.nav_right {
-  height: 100%;
-  float: right;
-  margin-right: 30px;
-}
-
-.el-main {
-  display: block;
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(246, 246, 246);
-  margin-top: 80px;
-}
-
-.el-main::-webkit-scrollbar {
-  display: none;
 }
 
 .main-page {
@@ -244,18 +209,6 @@ export default {
   color: #e76e0d;
 }
 
-.article-content {
-  font-size: 18px;
-  line-height: 1.8;
-  margin-bottom: 40px;
-}
-
-.article-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .article-footer button {
   border: none;
   background-color: #fff;
@@ -268,9 +221,6 @@ export default {
   color: #e76e0d;
 }
 
-.comments-section {
-  margin-top: 40px;
-}
 
 .comments-section h3 {
   font-size: 20px;
@@ -309,13 +259,6 @@ export default {
   background-color: #d15c0f;
 }
 
-.article-content {
-  font-size: 18px;
-  line-height: 1.8;
-  margin-bottom: 40px;
-  border: 1px solid #ddd;
-  padding: 20px;
-}
 .article-container {
   max-width: 800px;
   margin: 0 auto;
@@ -341,11 +284,4 @@ export default {
   font-size: 16px;
   color: #666;
 }
-
-.article-content {
-  font-size: 18px;
-  line-height: 1.8;
-}
-
-
 </style>

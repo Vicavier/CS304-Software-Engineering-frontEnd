@@ -101,8 +101,8 @@ export default {
       this.axios({
         method: 'POST',
         // url: 'http://10.26.144.58:8010/account/login',
-        // url: 'http://10.26.5.9:8010/account/login',
-        url: 'http://localhost:8010/account/login',
+        url: 'http://10.26.5.9:8010/account/login',
+        // url: 'http://localhost:8010/account/login',
         params: {
           username: this.LoginForm.username,
           password: this.LoginForm.password
@@ -142,8 +142,8 @@ export default {
       this.axios({
         method: 'POST',
         // url: 'http://10.26.144.58:8010/account/register',
-        // url: 'http://10.26.5.9:8010/account/register',
-        url: 'http://localhost:8010/account/register',
+        url: 'http://10.26.5.9:8010/account/register',
+        // url: 'http://localhost:8010/account/register',
         params: {
           username: this.RegisterForm.username,
           password: this.RegisterForm.password,
