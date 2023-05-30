@@ -56,7 +56,7 @@
                   <el-radio :label="true">收</el-radio>>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item v-if="stuffInfo.is_buyer === true">
+              <el-form-item v-if="stuffInfo.is_buyer === false">
                 <el-upload
                     v-model:file-list="imageFile"
                     class="upload-demo"
@@ -102,6 +102,7 @@ import SellComponent from "@/components/sellComponent.vue";
 import BuyComponent from "@/components/buyComponent.vue";
 import router from "@/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -209,9 +210,16 @@ export default {
         }]
       }).then(resp => {
         if (resp.status === 200){
-          console.log("success!!")
+          Swal.fire({
+            icon: 'success',
+            title: '二手交易帖子',
+            text: '您的帖子已發佈！',
+          })
           //TODO：给个弹窗表示成功
         }
+        setTimeout(() => {
+          location.reload();
+        }, 1000); // 延迟1秒后刷新页面
       })
     }
     function toHomePage(){
