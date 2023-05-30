@@ -4,7 +4,7 @@
     <el-upload
         class="avatar-uploader"
         action="http://localhost:8081/cloud_storage/file/uploading"
-        :show-file-list="true"
+        :show-file-list="false"
         accept="image/png, image/jpg, image/jpeg, image/gif"
         :on-success="handleAvatarSuccess"
     >
@@ -49,19 +49,21 @@
 import {ref} from 'vue';
 // import {reactive} from 'vue'
 // import axios from "axios";
+import {getCookie, setCookie} from "@/js/global";
+import router from "@/router";
 import Swal from 'sweetalert2'
 export default {
   name:"infoEdit.vue",
   data(){
     return{
       formLabelAlign:{
-        id: localStorage.getItem("id"),
-        username: localStorage.getItem('username'),
-        password:localStorage.getItem('password'),
-        nick_name: localStorage.getItem('nickname'),
-        email: localStorage.getItem('email'),
-        avatar: localStorage.getItem('avatar'),
-        background: localStorage.getItem('background'),
+        id: getCookie("id"),
+        username: getCookie("username"),
+        password:getCookie("password"),
+        nick_name: getCookie("nickname"),
+        email: getCookie("email"),
+        avatar: getCookie("avatar"),
+        background: getCookie("background")
         //username, password, nick_name,email,avatar, background
       },
       imageUrl:ref(''),
@@ -78,24 +80,34 @@ export default {
       //YUKI:submit profile for updates
       this.axios({
         method:'POST',
-        url: 'http://localhost:8010/usercenter/edituserdata',
+        url: 'http://localhost:8010/userCenter/editUserData',
         params:{
           id:this.formLabelAlign.id,
           username: this.formLabelAlign.username,
           password:this.formLabelAlign.password,
           nick_name:this.formLabelAlign.nick_name,
           email:this.formLabelAlign.email,
-          avatar:this.formLabelAlign.avatar,
+          avatar:this.imageUrl,
           background:this.formLabelAlign.background
         }
       }).then(function (response) {
-        console.log(this.formLabelAlign);
+        const list = response.data.data.data
+        setCookie('username', list.username,1)
+        setCookie('password', list.password, 1)
+        setCookie('nickname',list.nick_name,1)
+        setCookie('email', list.email,1)
+        setCookie('avatar', list.avatar,1)
+        setCookie('background', list.background,1)
+        // console.log(response);
+        router.push('/selfpage')
+        setTimeout(() => {
+          location.reload();
+        }, 1000); // 延迟1秒后刷新页面
         Swal.fire({
           icon: 'success',
           title: '成功！',
           text: '您已经成功修改资料并上传!',
         })
-        console.log(response);
       })
           .catch(function (error) {
             Swal.fire({
@@ -105,7 +117,7 @@ export default {
             })
             console.log(error);
           });
-
+      // router.push('/selfpage')
     },
     backToQ() {
       this.editting = false;

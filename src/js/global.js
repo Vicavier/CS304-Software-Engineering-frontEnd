@@ -20,11 +20,19 @@ export const getCookie=function (cname) {
     }
 
 export const clearCookie=function () { //删除cookie方法
-        this.setCookie("username", "", -1);
+    setCookie("username", "", -1);
+    setCookie("password", "", -1);
+    setCookie("nickname", "", -1);
+    setCookie("email", "", -1);
+    setCookie("avatar", "", -1);
+    setCookie("background", "", -1);
+    setCookie("checked", "", -1);
+    setCookie("id", "", -1);
+
     }
 
 export const checkCookie=function () {
-        var hasLogin = this.getCookie("checked");
+        var hasLogin = getCookie("checked") !== "";
         return hasLogin //true-已登录
     }
 

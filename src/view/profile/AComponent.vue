@@ -6,6 +6,8 @@
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
+// import QAComponent from "@/components/QAComponent.vue";
+import {getCookie} from "@/js/global";
 import { toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'
@@ -29,7 +31,7 @@ export default {
       method:'GET',
       url:'http://localhost:8010/userCenter/getUserComments',
       params:{
-        userId:'8348635264834412544'
+        userId:getCookie('id')
       }
     }).then(res => {
       const list = res.data.data.data;

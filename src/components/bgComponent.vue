@@ -1,31 +1,59 @@
 <template>
   <div class="upload-area">
-    <input type="file" @change="handleFileUpload">
     <div :style="{ backgroundImage: `url(${imageUrl})`, backgroundColor:'#A9A9A9' }">
-      <el-button type="info" plain>
-        <el-icon><Camera /></el-icon>
-        上传背景图片
-      </el-button>
+      <el-upload
+          action="http://localhost:8081/cloud_storage/file/uploading"
+          :show-file-list="false"
+          accept="image/png, image/jpg, image/jpeg, image/gif"
+          :on-success="handleFileUpload">
+        <!--        <img v-if="imageUrl" :src="imageUrl" class="avatar" />-->
+        <!--        <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>-->
+      </el-upload>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import Swal from "sweetalert2";
+
 export default {
   name: "bgComponent.vue",
   data() {
     return {
-      imageUrl: 'https://opencurve-picture.oss-cn-shenzhen.aliyuncs.com/e298c6c962a736d65a2b3d810d854ba41268908276.png'
+      imageUrl:this.$global.getCookie('background')
     };
   },
+  setup(){
+
+  },
   methods: {
-    handleFileUpload(event) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = event => {
-        this.imageUrl = event.target.result;
-      };
-      reader.readAsDataURL(file);
+    handleFileUpload(res) {
+     axios({
+       method: 'POST',
+       url: 'http://localhost:8010/userCenter/editUserData',
+       params: {
+         username: this.$global.getCookie('username'),
+         password: this.$global.getCookie('password'),
+         nick_name:this.$global.getCookie('nickname'),
+         avatar:this.$global.getCookie('avatar'),
+         background:res.data.url,
+         email:this.$global.getCookie('email'),
+         id:this.$global.getCookie('id')
+       }
+     })
+         .then(res =>{
+           console.log(res.data)
+           if (res.data.code===200){
+             Swal.fire({
+               icon: 'success',
+               title: '成功！',
+               text: '您已经成功上传背景图',
+             })
+           }
+         })
+      this.imageUrl = res.data.url
+      this.$global.setCookie('background', this.imageUrl,1)
     }
   }
 }

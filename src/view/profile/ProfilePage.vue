@@ -7,7 +7,8 @@
     </div>
 
     <div class="profile-info">
-      <el-avatar shape="square" :size="100" :fit="'fill'" :src="url" />>
+      <el-avatar shape="square" :size="100" :fit="'fill'" :src="url" />
+      用户id: {{id}}
     </div>
 
     <div class="profile-body">
@@ -32,7 +33,8 @@ import QComponent from "@/view/profile/QComponent.vue";
 import AComponent from "@/view/profile/AComponent.vue";
 import PersonalArticle from "@/view/profile/PersonalArticle.vue";
 import infoEdit from "@/view/profile/InfoEdit.vue";
-import router from "@/router";
+// import router from "@/router";
+import {getCookie} from "@/js/global";
 // import InfoEdit
 export default {
   components:{
@@ -51,18 +53,13 @@ export default {
     }
   },
   setup(){
-    const urls = [
-      'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    ];
-    const url ='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
+    let id = getCookie("id")
+    const url = getCookie("avatar");
     // let nav = 0;
-    function toInfoEditPage(){
-      router.push('/edit')
-    }
+
     return{
-      urls,
       url,
-      toInfoEditPage
+      id
     }
   }
 }
