@@ -1,20 +1,6 @@
 <template>
   <div class="QA-root">
     <el-container>
-      <el-header id="head">
-        <div class="logo">
-          <a>
-            <img src="../../image/logo.png">
-          </a>
-        </div>
-        <div class="nav_right">
-          <img src="../../image/avatar.jpg" style="height: 50px;">
-        </div>
-        <div id="link-button">
-          <div class="nav-menu" @click="toHomePage"><i class="icon-home"></i> 首页</div>
-          <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
-        </div>
-      </el-header>
       <div style="height: 90px"></div>
       <el-container>
         <el-aside id="left-side">

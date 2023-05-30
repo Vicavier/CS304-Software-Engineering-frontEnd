@@ -12,7 +12,6 @@
         <img :src=sellContent.avatar_url style="width: 50px;">
         {{sellContent.poster}}
       </div>
-      <el-button id="write-button" type="primary" ><i class="icon-write"></i>写回答</el-button>
     </div>
   </div>
 </template>

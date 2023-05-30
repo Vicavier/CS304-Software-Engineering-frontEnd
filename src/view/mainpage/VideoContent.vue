@@ -71,105 +71,18 @@
       </div>
     </el-card>
   </div>
-
 </template>
 <script>
-import {ref} from 'vue';
-import router from "@/router";
-
 export default {
   setup(){
-    let selectDiv = ref('games')
-    const currentDate = ref('2023-5-27')
 
-    function loadLife(){
-      selectDiv.value = 'life'
-    }
-    function loadGames(){
-      selectDiv.value = 'games'
-    }
 
-    function loadLearning(){
-      selectDiv.value = 'learning'
-    }
-    function loadActivity(){
-      selectDiv.value = 'activity'
-    }
-    function toSpecificVideo(){
-      router.push('/playVideo');
-    }
     return{
-      selectDiv,
-      currentDate,
-      loadLife,
-      loadGames,
-      loadLearning,
-      loadActivity,
-      toSpecificVideo,
+      onCanplay,
+      onTimeupdate,
+      onPause,
+      onPlay,
     }
   }
 }
 </script>
-
-<style scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-  text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-.video-menu{
-  margin-top: 20px;
-  width: 100%;
-}
-.left-nav{
-  width: 10%;
-  height: 200px;
-  background-color: rgb(255,255,255);
-  float: left;
-}
-
-.left-nav-item{
-  height: 50px;
-  width: 100%;
-  color: black;
-  font-family: 黑体;
-  font-size: 15px;
-  text-align: center;
-  line-height: 50px;
-  cursor: pointer;
-}
-
-.selected {
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-.video-list{
-  width: 89%;
-  float: right;
-  background-color: rgb(255,255,255);
-}
-
-.el-card{
-  display: inline-block;
-  float: left;
-  width: 20%;
-  height: 300px;
-}
-.el-card:hover{
-  cursor: pointer;
-}
-.img-cover{
-  margin:0 auto;
-  width: 100%;
-  height: 80%;
-}
-</style>

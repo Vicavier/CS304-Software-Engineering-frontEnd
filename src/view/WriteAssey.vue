@@ -1,21 +1,7 @@
 <template>
   <el-container>
-    <el-header>
-      <div id="logo">
-        <a>
-          <img src="../image/logo.png">
-        </a>
-      </div>
-      <div id="link-button">
-        <div class="nav-menu" @click="toHomePage"><i class="icon-home"></i> 首页</div>
-        <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
-        <div class="nav-menu"><i class="icon-folder"></i> 收藏夹</div>
-        <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
-      </div>
-    </el-header>
     <el-main>
       <div class="main-page">
-        <!--主要路由区域-->
         <div class="main-content">
           <!-- v-me-editor 组件-->
           <el-input v-model="title" placeholder="请输入标题" />
@@ -53,7 +39,6 @@
       </div>
     </el-footer>
   </el-container>
-
 </template>
 
 <script>
@@ -272,7 +257,6 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: rgb(246, 246, 246);
-  margin-top: 80px;
 }
 
 .el-main::-webkit-scrollbar {
@@ -375,6 +359,7 @@ export default {
 .main-content, .chatting {
   display: inline-block;
   float: left;
+
 }
 
 //聊天相关风格

@@ -1,18 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <div id="logo">
-        <a>
-          <img src="../image/logo.png">
-        </a>
-      </div>
-      <div id="link-button">
-        <div class="nav-menu" @click="toHomePage"><i class="icon-home"></i> 首页</div>
-        <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
-        <div class="nav-menu"><i class="icon-folder"></i> 跳蚤市场</div>
-        <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
-      </div>
-    </el-header>
     <el-main>
       <div class="main-page">
         <!--主要路由区域-->
@@ -25,15 +12,20 @@
                 <div id="buy" class="main-content-nav-item" :class="{selected:selectDiv==='buy'}" @click="loadBuy()">收</div>
               </div>
               <div class="nav-item">
-                <div class="table-title">出售物品</div>
+                <div class="table-title">出/收物品</div>
               </div>
               <div class="nav-item">
                 <div class="table-title">联系人</div>
               </div>
             </div>
             <div class="content">
-              <SellComponent v-for="sellContent in contentList" :key="sellContent.id"
-                             :sellContent="sellContent"></SellComponent>
+              <div v-if="showSell">
+                <SellComponent v-for="sellContent in contentList" :key="sellContent.id"
+                               :sellContent="sellContent"></SellComponent>
+              </div>
+              <div v-if="!showSell">
+                <BuyComponent v-for="buyContent in buycontentList" :key="buyContent.id" :buyContent="buyContent"></BuyComponent>
+              </div>
             </div>
           </div>
         </div>
@@ -64,8 +56,9 @@
                     class="upload-demo"
                     :action="uploadActionUrl"
                     :on-success="handleSuccess"
+                    id="bnt"
                 >
-                  <el-button type="primary">Click to upload</el-button>
+
                   <template #tip>
                     <div class="el-upload__tip">
                       jpg/png files with a size less than 500kb
@@ -100,11 +93,13 @@
 <script>
 import {ref, reactive, toRefs, onMounted} from "vue"
 import SellComponent from "@/components/sellComponent.vue";
+import BuyComponent from "@/components/buyComponent.vue";
 import router from "@/router";
 
 export default {
   components: {
     SellComponent,
+    BuyComponent,
   },
   methods: {toRefs},
   setup() {
@@ -145,16 +140,27 @@ export default {
       }
 
     ])
-
+    const buycontentList = reactive([
+      {
+        id:1,
+        stuff: '全地形人动力自行车',
+        poster:'qq:12345678',
+        avatar_url:'https://image-attachment.oss-cn-beijing.aliyuncs.com/data/www/html/uc_server/data/avatar/002/37/19/19_avatar_middle.jpg?v=',
+        price:123,
+      }
+    ])
+    let showSell = ref(true)
 
     function loadSell() {
       console.log("click sell")
       selectDiv.value = 'sell'
+      showSell.value = true
     }
 
     function loadBuy() {
       console.log("click buy")
       selectDiv.value = 'buy'
+      showSell.value = false
     }
     function handleSuccess(resp){
       imageUrl = resp.data.url
@@ -180,10 +186,12 @@ export default {
     return {
       selectDiv,
       contentList,
+      buycontentList,
       imageUrl,
       imageFile,
       uploadActionUrl,
       stuffInfo,
+      showSell,
       loadBuy,
       loadSell,
       handleSuccess,
@@ -248,7 +256,6 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: rgb(246, 246, 246);
-  margin-top: 80px;
 }
 
 .el-main::-webkit-scrollbar {
@@ -436,7 +443,7 @@ export default {
   border-color: var(--el-color-primary);
 }
 
-input[type="file"]{
+input[name*=file]{
   display: none!important;
 }
 </style>

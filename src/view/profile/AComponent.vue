@@ -6,7 +6,6 @@
 
 <script>
 import BlogComponent from "@/components/blogComponent.vue";
-import QAComponent from "@/components/QAComponent.vue";
 import { toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'

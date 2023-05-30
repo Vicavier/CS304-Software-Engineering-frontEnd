@@ -12,7 +12,7 @@
           <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
           <div class="nav-menu" @click="toSecondHandPage"><i class="icon-folder"></i> 跳蚤市场</div>
           <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
-          <div class="nav-menu" @click="toShortVideo"><i class="icon-heart"></i> 短视频</div>
+          <div class="nav-menu" @click="toShortVideo"><i class="icon-video-camera"></i> 短视频</div>
         </div>
         <div class="search">
           <el-input
@@ -47,42 +47,14 @@
             <router-view></router-view>
           </div>
         </div>
-        <div class="vice-content">
-          <div class="vice-content-title">
-            <i class="icon-bubble"></i>
-            创作中心
-            <el-tag class="ml-2" >Lv {{level}}</el-tag>
-          </div>
-          <div class="vice-content-nav">
-            <div class="vice-content-nav-item">
-              <el-button type="primary" circle @click="toWritePage"><i class="icon-write"></i></el-button>
-              <h5>写文章</h5>
-            </div>
-            <div class="vice-content-nav-item">
-              <el-button type="warning" circle @click="toQAPage"><i class="icon-bubbles"></i></el-button>
-              <h5>问问题</h5>
-            </div>
-          </div>
-          <div class="quick-QA">
-            <el-input
-                v-model="quick_QA.content"
-                :autosize="{ minRows: 2, maxRows: 4 }"
-                type="textarea"
-                placeholder="快速提问"
-            />
-            <div style="margin: 10px 0">
-              <el-button type="primary" @click="postQuestion">发布问题</el-button>
-            </div>
-          </div>
 
-        </div>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import {ref, reactive} from "vue";
+import {ref} from "vue";
 import axios from "axios";
 import router from "@/router";
 export default {
@@ -90,25 +62,12 @@ export default {
   setup(){
     let haveLogin = ref(false)
     let defaultAvatar =  ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
-    let quick_QA = reactive({
-      title: '',
-      is_anonymous: false,
-    })
+
     let search_content = ref('')
     let search_module = ref('')
     const textarea = ref('')
-    let level = ref('2')
-    //methods
 
-    function postQuestion(){
-      axios.post('http://10.26.5.9:8081/Article/topic/save', {
-        title: quick_QA.title,
-        poster:'教父爷爷',
-        is_anonymous: quick_QA.is_anonymous,
-      }).then((response)=>{
-        console.log(response.data)
-      })
-    }
+    //methods
     function onLogin(){
       // axios.post('http://10.26.5.9:8081').then((response)=>{
       //   console.log(response.data)
@@ -150,12 +109,9 @@ export default {
     return {
       haveLogin,
       defaultAvatar,
-      quick_QA,
       search_content,
       search_module,
       textarea,
-      level,
-      postQuestion,
       onLogin,
       onRegister,
       toSelfPage,
@@ -244,33 +200,6 @@ export default {
 }
 
 .main-content{
-  width: 65%;
-  background-color: rgb(255,255,255);
-}
-
-.vice-content{
-  width: 25%;
-  margin-left: 20px;
-  background-color: rgb(255,255,255);
-}
-
-.vice-content-title{
-  height: 50px;
-  line-height: 50px;
-  font-size: 20px;
-
-}
-.vice-content-nav{
   width: 100%;
-  text-align: center;
-}
-.vice-content-nav-item{
-  float: left;
-  width: 50%;
-}
-.quick-QA{
-  width: 90%;
-  margin: 0 auto;
-  text-align:center;
 }
 </style>
