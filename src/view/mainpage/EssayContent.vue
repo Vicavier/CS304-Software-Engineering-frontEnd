@@ -32,11 +32,8 @@
 
             <div v-for="comment in commentsList" :key="comment.id" class="comment">
               <div class="comment-name">
-                <img src="">
-
-                <h3>
-                  {{ comment.name }}
-                </h3>
+                <el-avatar shape="square" :size="30" :fit="'fill'" :src="comment.avatar" />
+                {{ comment.name }}
               </div>
               <div class="comment-content">
                 <h5>
@@ -79,8 +76,8 @@ export default {
     let comments = ref(0)
     let commentsList = reactive([])
     let commentAuthor = ref('')
-    let commentContent = ref('')
     let showingComments = ref(false)
+    let newComment = ref("")
 
     function likeArticle() {
       this.likes++
@@ -128,7 +125,8 @@ export default {
             }]
           }).then(resp => {
             if (resp.status === 200) {
-              author.value = resp.data.data.data.username
+              console.log(resp.data.data)
+              author.value = resp.data.data.user.username
               console.log("文章作者：" + author.value)
             }
           })
@@ -155,10 +153,10 @@ export default {
           console.log(resp.data.data.articleComments)
           //TODO:这里我忘记怎么解析评论了
           for (let i = 0; i < resp.data.data.articleComments.length; i++) {
-            console.log("评论")
+            console.log("评论" + i)
             commentsList.push(resp.data.data.articleComments[i])
             console.log(commentsList[i].user_id)
-            let name = ""
+            let name = ref("")
 
             axios({
               method: "GET",
@@ -172,18 +170,22 @@ export default {
               }]
             }).then(resp => {
               if (resp.status === 200) {
-                console.log("获得" + commentsList[i].user_id + "的用户名")
-                author.value = resp.data.data.data.username
-                console.log(author.value)
-                name = author.value
+                const url = resp.data.data.user.avatar;
+
+                name.value = resp.data.data.user.username
+                console.log("获得" + commentsList[i].user_id + "的用户名 " + name.value)
+                console.log(name.value)
+                commentsList[i].name = name.value
+                commentsList[i].avatar = url
               }
             })
-            console.log(name)
-            commentsList[i].name = name
+
+            console.log("提取完评论"+i)
+
+            // console.log(name.value)
+            // console.log(commentsList[i].name)
           }
 
-
-          console.log(commentsList[0])
         }
       })
 
@@ -195,36 +197,6 @@ export default {
       //   })
       // }
       // this.comments = numComments
-    }
-
-    function postComment() {
-      // 使用Axios将用户提交的评论发送到后端API，以保存到数据库中
-      // 例如：
-      // axios.post('/api/comments', {
-      //     author: this.commentAuthor,
-      //     content: this.commentContent
-      //   })
-      //   .then(response => {
-      //     console.log(response.data)
-      //     this.commentsList.push({
-      //       author: this.commentAuthor,
-      //       content: this.commentContent
-      //     })
-      //     this.commentAuthor = ''
-      //     this.commentContent = ''
-      //     this.comments++
-      //   })
-      //   .catch(error => {
-      //     console.error(error)
-      //   })
-      // 在这里，我们只是将评论添加到commentsList属性中
-      this.commentsList.push({
-        author: this.commentAuthor,
-        content: this.commentContent
-      })
-      this.commentAuthor = ''
-      this.commentContent = ''
-      this.comments++
     }
 
     function setLike() {
@@ -242,16 +214,40 @@ export default {
         }).then(resp => {
           if (resp.status === 200) {
             console.log("点赞成功")
-          } else {
-            alert("请先登录")
+            likes.value++
           }
         })
+      }else {
+        alert("请先登录")
       }
     }
 
     //TODO: 这里需要将用户当前的评论上传到后端
     function addComment() {
-
+      if(getCookie("id")){
+        axios({
+          method: "POST",
+          url: `http://10.26.5.9:8010/article/comment?articleId=` + props.id+"&info=" + newComment.value + "&userId=" + getCookie("id"),
+          transformRequest: [function (data) {
+            let str = '';
+            for (let key in data) {
+              str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+            }
+            return str;
+          }]
+        }).then(resp => {
+          if (resp.status === 200) {
+            alert("评论上传成功")
+            commentsList.push({
+              author: commentAuthor,
+              content: newComment,
+            })
+            comments.value++
+          }
+        })
+      }else {
+        alert("请先登录")
+      }
     }
 
     // 这个方法将收藏当前文章给当前登录用户
@@ -269,11 +265,13 @@ export default {
           }]
         }).then(resp => {
           if (resp.status === 200) {
-            console.log("点赞成功")
-          } else {
-            alert("请先登录")
+            console.log("收藏成功")
+            alert("收藏成功")
+            location.reload()
           }
         })
+      }else{
+        alert("请先登录")
       }
     }
 
@@ -307,12 +305,10 @@ export default {
       comments,
       commentsList,
       commentAuthor,
-      commentContent,
       showingComments,
       likeArticle,
       showComments,
       getComments,
-      postComment,
       // eslint-disable-next-line vue/no-dupe-keys
       title,
       // eslint-disable-next-line vue/no-dupe-keys
@@ -321,6 +317,7 @@ export default {
       addComment,
       collect,
       fromIdToName,
+      newComment,
     }
   }
 }

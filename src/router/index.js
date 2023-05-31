@@ -37,8 +37,10 @@ const routes = [
                 component: () => import('../view/VideoPage.vue'),
             },
             {
-                path: 'playVideo',
-                component: () => import('../view/mainpage/VideoContent.vue')
+                path: '/playVideo/:id/:url/:uploader',
+                name:'playVideo',
+                component: () => import('../view/mainpage/VideoContent.vue'),
+                props:true
             },
             {
                 path: '/article/:id',
@@ -46,6 +48,11 @@ const routes = [
                 component: () => import('../view/mainpage/EssayContent'),
                 props: true
             },
+            {
+                path:'/upload',
+                component:()=>import('../view/mainpage/UploadVideo.vue'),
+            }
+
         ]
     },
     {
@@ -56,6 +63,7 @@ const routes = [
         path: '/sign',
         component: () => import('../view/SignPage.vue'),
     },
+
 
 ]
 

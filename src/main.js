@@ -13,7 +13,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import Vuex from 'vuex'
 import vue3videoPlay from 'vue3-video-play' // 引入组件
 import 'vue3-video-play/dist/style.css' // 引入css
-
+// import VueCropper from 'vue-cropper'
 import * as global from './js/global'
 
 const app = createApp(App)

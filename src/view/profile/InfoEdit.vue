@@ -91,7 +91,8 @@ export default {
           background:this.formLabelAlign.background
         }
       }).then(function (response) {
-        const list = response.data.data.data
+        // console.log(response.data.data.user)
+        const list = response.data.data.user
         setCookie('username', list.username,1)
         setCookie('password', list.password, 1)
         setCookie('nickname',list.nick_name,1)

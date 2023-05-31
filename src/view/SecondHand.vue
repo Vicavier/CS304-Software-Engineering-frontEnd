@@ -103,6 +103,7 @@ import BuyComponent from "@/components/buyComponent.vue";
 import router from "@/router";
 import axios from "axios";
 import Swal from "sweetalert2";
+// import {sellContentList} from "@/hook/SellContentList";
 
 export default {
   components: {
@@ -215,11 +216,20 @@ export default {
             title: '二手交易帖子',
             text: '您的帖子已發佈！',
           })
-          //TODO：给个弹窗表示成功
+          if (stuffInfo.is_buyer){
+            selectDiv.value = 'buy'
+            while (buycontentList.length){
+              buycontentList.pop()
+            }
+          } else {
+            while(contentList.length){
+              contentList.pop()
+            }
+            selectDiv.value = 'sell'
+          }
+          loadOrder()
+
         }
-        setTimeout(() => {
-          location.reload();
-        }, 1000); // 延迟1秒后刷新页面
       })
     }
     function toHomePage(){

@@ -34,7 +34,7 @@ export default {
         userId:getCookie('id')
       }
     }).then(res => {
-      const list = res.data.data.data;
+      const list = res.data.data.comments;
       const length = list.length;
       for (let i = 0; i < length;i++) {
         var temp = {

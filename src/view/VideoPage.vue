@@ -1,6 +1,6 @@
 <template>
   <el-carousel :interval="4000" type="card" height="250px">
-    <el-carousel-item v-for="(item,index) in carouselItem" :key="index">
+    <el-carousel-item v-for="(item,index) in carouselItem" :key="index" @click="toAds(item)">
 
       <el-image :src="item.cover" style="width:100%;height:inherit;" alt="图片丢失了"/>
 
@@ -9,86 +9,130 @@
   </el-carousel>
   <div class="video-menu"></div>
   <div class="left-nav">
-    <div id="life" class="left-nav-item" :class="{selected:selectDiv==='life'}" @click="loadLife">生活</div>
-    <div id="games" class="left-nav-item" :class="{selected:selectDiv==='games'}" @click="loadGames">游戏</div>
-    <div id="learning" class="left-nav-item" :class="{selected:selectDiv==='learning'}" @click="loadLearning">学习</div>
-    <div id="activity" class="left-nav-item" :class="{selected:selectDiv==='activity'}" @click="loadActivity">
-      活动/社团
-    </div>
+    <div id="life" class="left-nav-item" :class="{selected:selectDiv==='life'}" @click="loadLife" >生活</div>
+    <div id="games" class="left-nav-item" :class="{selected:selectDiv==='games'}" @click="loadGames" >游戏</div>
+    <div id="learning" class="left-nav-item" :class="{selected:selectDiv==='learning'}" @click="loadLearning" >学习</div>
+    <div id="activity" class="left-nav-item" :class="{selected:selectDiv==='activity'}" @click="loadActivity" >活动/社团</div>
   </div>
-  <div class="video-list">
-    <el-card :body-style="{ padding: '10px' }" @click="toSpecificVideo">
+  <div class="video-list" v-show="selectDiv==='life'">
+    <el-card v-for="(item, index) in lifeVideoList" :key="index" :body-style="{ padding: '10px' }" @click="toSpecificVideo(item)">
       <div class="img-cover">
         <img
-            src="https://i1.hdslb.com/bfs/archive/3a4578c08e5e4d538d00fc33c72ce4c10a8c0bcd.jpg@672w_378h_1c_!web-home-common-cover.webp"
+            :src="item.cover"
             class="image"
-            style="width: 100%;height: 100%"
         />
       </div>
       <div style="padding: 14px">
-        <span>Yummy hamburger</span>
+        <span>{{item.title}}</span>
         <div class="bottom">
-          <time class="time">{{ currentDate }}</time>
-        </div>
-      </div>
-    </el-card>
-    <el-card :body-style="{ padding: '10px' }">
-      <img
-          src="https://i2.hdslb.com/bfs/archive/94eb9f62b46d39c25a6b3135ec92d75b2670fd44.jpg@672w_378h_1c_!web-home-common-cover.webp"
-          class="image"
-          style="width: 100%;height: 100%"
-      />
-      <div style="padding: 14px">
-        <span>Yummy hamburger</span>
-        <div class="bottom">
-          <time class="time">{{ currentDate }}</time>
-        </div>
-      </div>
-    </el-card>
-    <el-card :body-style="{ padding: '10px' }">
-      <div class="img-cover">
-        <img
-            src="https://i2.hdslb.com/bfs/archive/fdc4bbd5d2cee4bdcc5de076fe002cb9a2e17e24.jpg@672w_378h_1c_!web-home-common-cover.webp"
-            class="image"
-            style="width: 100%;height: 100%"
-        />
-      </div>
-      <div style="padding: 14px">
-        <span>Yummy hamburger</span>
-        <div class="bottom">
-          <time class="time">{{ currentDate }}</time>
-        </div>
-      </div>
-    </el-card>
-    <el-card :body-style="{ padding: '10px' }">
-      <div class="img-cover">
-        <img
-            src="https://i0.hdslb.com/bfs/archive/0666cf931cfbfcdeb40cdd1c1da123a753bf7e2b.jpg@672w_378h_1c_!web-home-common-cover.webp"
-            class="image"
-            style="width: 100%;height: 100%"
-        />
-      </div>
-      <div style="padding: 14px">
-        <span>Yummy hamburger</span>
-        <div class="bottom">
-          <time class="time">{{ currentDate }}</time>
+          <time class="time">{{ item.uptime }}</time>
         </div>
       </div>
     </el-card>
   </div>
-
+  <div class="video-list" v-show="selectDiv==='games'">
+    <el-card v-for="(item, index) in gamesVideoList" :key="index" :body-style="{ padding: '10px' }" @click="toSpecificVideo(item)">
+      <div class="img-cover">
+        <img
+            :src="item.cover"
+            class="image"
+        />
+      </div>
+      <div style="padding: 14px">
+        <span>{{item.title}}</span>
+        <div class="bottom">
+          <time class="time">{{ item.uptime }}</time>
+        </div>
+      </div>
+    </el-card>
+  </div>
+  <div class="video-list" v-show="selectDiv==='learning'">
+    <el-card v-for="(item, index) in learningVideoList" :key="index" :body-style="{ padding: '10px' }" @click="toSpecificVideo(item)">
+      <div class="img-cover">
+        <img
+            :src="item.cover"
+            class="image"
+        />
+      </div>
+      <div style="padding: 14px">
+        <span>{{item.title}}</span>
+        <div class="bottom">
+          <time class="time">{{ item.uptime }}</time>
+        </div>
+      </div>
+    </el-card>
+  </div>
+  <div class="video-list" v-show="selectDiv==='activity'">
+    <el-card v-for="(item, index) in activityVideoList" :key="index" :body-style="{ padding: '10px' }" @click="toSpecificVideo(item)">
+      <div class="img-cover">
+        <img
+            :src="item.cover"
+            class="image"
+        />
+      </div>
+      <div style="padding: 14px">
+        <span>{{item.title}}</span>
+        <div class="bottom">
+          <time class="time">{{ item.uptime }}</time>
+        </div>
+      </div>
+    </el-card>
+  </div>
 </template>
 <script>
-import {ref} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import router from "@/router";
 import {CarouselItem} from "@/hook/CarouselItem";
+import axios from "axios";
 
 export default {
   setup() {
-    let selectDiv = ref('games')
+    let selectDiv = ref('life')
     const currentDate = ref('2023-5-27')
     const carouselItem = CarouselItem
-
+    const lifeVideoList = reactive([
+      {
+        id:1,
+        title:'钢铁侠请苹果公司拍的宣传片',
+        cover:'https://i2.hdslb.com/bfs/archive/0c8566b1e6a2f6fa8956e5729a10ab8c869d053e.jpg@560w_350h_1c_!web-space-index-topvideo.webp',
+        url:'',
+        uptime:'2023-3-3',
+      },
+      {
+        id:2,
+        title:'[混剪 踩点]叶问:我就会亿点点。',
+        cover:'https://i2.hdslb.com/bfs/archive/4c33106ee62933d2c8d16adaac369606c5fb3c89.jpg@320w_200h_1c_!web-space-upload-video.webp',
+        url:'',
+        uptime:'2022-2-21'
+      }
+    ])
+    const gamesVideoList = reactive([
+      {
+        id:1,
+        title:'狂魔哥向七彩猫、赖神、大仙借号，最终被同台主播赚走100块后顶',
+        cover:'https://i2.hdslb.com/bfs/archive/3d93a73b3efe535162e4825a48c31c48de210727.jpg@672w_378h_1c_!web-home-common-cover.webp',
+        url:'',
+        uptime:'2023-3-3',
+      },
+    ])
+    const learningVideoList = reactive([
+      {
+        id:1,
+        title:'机器学习入门到精通！不愧是公认的讲的最好的【机器学习全套教',
+        cover:'https://i1.hdslb.com/bfs/archive/c3f3a350ba53ecdea6859a143a0ed9c5910e80e2.png@672w_378h_1c_!web-search-common-cover.webp',
+        url:'',
+        uptime:'2023-3-3',
+      },
+    ])
+    const activityVideoList = reactive([
+      {
+        id:1,
+        title:'37所友校学生会为苏苏加油！祝南方科技大学学生会10周年生日快乐',
+        cover:'https://i2.hdslb.com/bfs/archive/9332d7df0878a876e8ab6ee0e9e7a20329866f26.jpg@672w_378h_1c_!web-search-common-cover.webp',
+        url:'',
+        uptime:'2023-3-3',
+      },
+    ])
     function loadLife() {
       selectDiv.value = 'life'
     }
@@ -105,19 +149,97 @@ export default {
       selectDiv.value = 'activity'
     }
 
-    function toSpecificVideo() {
-      router.push('/playVideo');
+    function toSpecificVideo(cont) {
+      console.log(cont)
+      router.push({
+        name: 'playVideo',
+        params: {
+          id: cont.id,
+          url:cont.url,
+          uploader:cont.uploader,
+        }
+      });
     }
+    function toAds(cont){
+      router.push({
+        name: 'playVideo',
+        params: {
+          id: cont.id
+        }
+      })
+    }
+    onMounted(()=>{
+      axios({
+        method: 'GET',
+        url: 'http://10.26.5.9:8020/video/all',
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        if (resp.status === 200) {
+          console.log(resp.data.data)
+          let list = resp.data.data.videos
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].type === 'life'){
+              lifeVideoList.push({
+                id:list[i].id,
+                title:list[i].title,
+                cover:list[i].cover,
+                url:list[i].url,
+                uptime:list[i].gmt_create,
+                uploader:list[i].uploader
+              })
+            } else if (list[i].type === 'games') {
+              gamesVideoList.push({
+                id:list[i].id,
+                title:list[i].title,
+                cover:list[i].cover,
+                url:list[i].url,
+                uptime:list[i].gmt_create,
+                uploader:list[i].uploader
+              })
+            } else if (list[i].type === 'learning'){
+              learningVideoList.push({
+                id:list[i].id,
+                title:list[i].title,
+                cover:list[i].cover,
+                url:list[i].url,
+                uptime:list[i].gmt_create,
+                uploader:list[i].uploader
+              })
+            } else {
+              activityVideoList.push({
+                id:list[i].id,
+                title:list[i].title,
+                cover:list[i].cover,
+                url:list[i].url,
+                uptime:list[i].gmt_create,
+                uploader:list[i].uploader
+              })
+            }
+          }
+        }
+      })
+    })
 
     return {
       selectDiv,
       currentDate,
       carouselItem,
+      lifeVideoList,
+      gamesVideoList,
+      learningVideoList,
+      activityVideoList,
       loadLife,
       loadGames,
       loadLearning,
       loadActivity,
       toSpecificVideo,
+      toAds,
     }
   }
 }
@@ -177,7 +299,6 @@ export default {
   display: inline-block;
   float: left;
   width: 20%;
-  height: 200px;
 }
 
 .el-card:hover {
@@ -187,6 +308,20 @@ export default {
 .img-cover {
   margin: 0 auto;
   width: 100%;
-  height: 80%;
+  position: relative;
+}
+.img-cover::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%; /* 高度是宽度的 0.7 倍 */
+}
+
+.img-cover > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

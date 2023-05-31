@@ -11,33 +11,32 @@
           <div class="nav-menu" @click="toHomePage"><i class="icon-home"></i> 首页</div>
           <div class="nav-menu" @click="toSelfPage"><i class="icon-user"></i> 我的</div>
           <div class="nav-menu" @click="toSecondHandPage"><i class="icon-folder"></i> 跳蚤市场</div>
-          <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
+<!--          <div class="nav-menu"><i class="icon-heart"></i> 关注</div>-->
           <div class="nav-menu" @click="toShortVideo"><i class="icon-video-camera"></i> 短视频</div>
         </div>
-        <div class="search">
-          <el-input
-              v-model="search_content"
-              class="w-50 m-2"
-              size="large"
-              placeholder="搜索作者、帖子"
-          >
-            <template #append>
-              <i class="icon-search"></i>
-            </template>
-          </el-input>
-        </div>
-        <div class="nav_right" v-show="haveLogin">
-          <div class="nav_right">
-            <img src="../image/avatar.jpg" style="height: 50px;">
-          </div>
-          <div class="nav_right">
-            <el-button type="primary">提问</el-button>
-          </div>
-        </div>
-        <div class="nav_right" v-show="!haveLogin">
+<!--        <div class="search">-->
+<!--          <el-input-->
+<!--              v-model="search_content"-->
+<!--              class="w-50 m-2"-->
+<!--              size="large"-->
+<!--              placeholder="搜索作者、帖子"-->
+<!--          >-->
+<!--            <template #append>-->
+<!--              <i class="icon-search"></i>-->
+<!--            </template>-->
+<!--          </el-input>-->
+<!--        </div>-->
+
+        <div class="nav_right">
           <div class="nav_right">
             <el-button type="primary" @click="onLogin" v-if="!check">登录/注册</el-button>
             <el-button type="primary" @click="LogOut" v-if="check">退出登录</el-button>
+          </div>
+        </div>
+        <div class="nav_right" v-if="check">
+          <div class="nav_avatar">
+            <el-avatar shape="square" :size="50" :fit="'fill'" :src="avatar" />
+            欢迎~~{{nickname}}
           </div>
         </div>
       </el-header>
@@ -58,7 +57,7 @@
 import {ref} from "vue";
 import axios from "axios";
 import router from "@/router";
-import {checkCookie, clearCookie} from "@/js/global";
+import {checkCookie,getCookie, clearCookie} from "@/js/global";
 import Swal from "sweetalert2";
 export default {
   name:'HomePage',
@@ -66,7 +65,8 @@ export default {
     let check = checkCookie()
     let haveLogin = ref(false)
     let defaultAvatar =  ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
-
+    let avatar = getCookie("avatar")
+    let nickname = getCookie("nickname")
     let search_content = ref('')
     let search_module = ref('')
     const textarea = ref('')
@@ -143,6 +143,8 @@ export default {
       search_module,
       textarea,
       onLogin,
+      avatar,
+      nickname,
       onRegister,
       toSelfPage,
       toHomePage,
@@ -175,6 +177,7 @@ export default {
   height: 50px;
   line-height: 80px;
   float: left;
+  margin-top:10px;
 }
 //
 //.form {
@@ -206,7 +209,14 @@ export default {
 .nav_right{
   height: 100%;
   float: right;
-  margin-right: 30px;
+  margin-right: 1px;
+}
+
+.nav_avatar{
+  height: 100%;
+  float: right;
+  margin-right: 50px;
+  margin-top: 15px;
 }
 
 .el-main {

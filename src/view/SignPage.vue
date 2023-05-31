@@ -132,7 +132,7 @@ export default {
           Swal.fire({
             icon: 'error',
             title: '失败！',
-            text: res.data.message,
+            text: '沒有這個用戶或者賬號密碼有誤',
           })
         }
       })
@@ -278,12 +278,14 @@ export default {
 
 .veen .wrapper #login {
   padding-top: 20%;
+  width:80%;
   visibility: visible;
 }
 
 .veen .wrapper #register {
   transform: translateY(-80%) translateX(100%);
   visibility: hidden;
+  width:80%;
 }
 
 .veen .wrapper.move #register {

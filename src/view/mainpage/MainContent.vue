@@ -73,6 +73,7 @@ import {reactive,ref, toRefs, onMounted} from "vue";
 import {getCookie} from "@/js/global";
 import router from "@/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -103,7 +104,6 @@ export default {
     let level = ref('2')
     let showBlogs = ref(true)
     function toEssay(cont) {
-      console.log(cont)
       router.push({
         name: 'article',
         params: {
@@ -118,7 +118,7 @@ export default {
       showBlogs.value = true
       axios({
         method: 'GET',
-        url: 'http://10.26.5.9:8010/article/getAllArticle',
+        url: 'http://10.26.5.9:8010/article/getAllArticles',
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -131,9 +131,9 @@ export default {
           while(contentList.length){
             contentList.pop()
           }
-          console.log(resp.data.data.data)
-          let list = resp.data.data.data
-          for (let i = 0; i < resp.data.data.data.length; i++) {
+          console.log(resp.data.data)
+          let list = resp.data.data.articles
+          for (let i = 0; i < list.length; i++) {
 
             console.log(list[i])
             contentList.push(list[i])
@@ -143,7 +143,9 @@ export default {
       })
     }
     function loadQA(){
-
+      while(QAcontentList.length){
+        QAcontentList.pop()
+      }
       selectDiv.value = 'Q&A'
       showBlogs.value = false
       axios({
@@ -161,7 +163,6 @@ export default {
           console.log(resp.data.data.topics)
           let list = resp.data.data.topics
           for (let i = 0; i < list.length; i++) {
-            console.log(list[i])
             if (list[i].is_anonymous){
               QAcontentList.push({
                 id:list[i].id,
@@ -192,21 +193,18 @@ export default {
                 if (userData.status === 200){
                   poster = userData.data.data.data.username
                   avatar_url = userData.data.data.data.avatar
+                  QAcontentList.push({
+                    id:list[i].id,
+                    title: list[i].title,
+                    views:list[i].views,
+                    answers:list[i].answers,
+                    likes:list[i].likes,
+                    poster:poster,
+                    avatar_url:avatar_url,
+                  })
                 }
               })
-
-              QAcontentList.push({
-                id:list[i].id,
-                title: list[i].title,
-                views:list[i].views,
-                answers:list[i].answers,
-                likes:list[i].likes,
-                poster:poster,
-                avatar_url:avatar_url,
-              })
-
             }
-
           }
           console.log(QAcontentList)
         }
@@ -237,7 +235,14 @@ export default {
           }]
         }).then(resp => {
           if (resp.status === 200){
-            console.log("ok!!")
+            Swal.fire({
+              icon: 'success',
+              title: '问题发布',
+              text: '您的问题已经成功发布！',
+            })
+            // setTimeout(() => {
+            //   location.reload();
+            // }, 500); // 延迟0.5秒后刷新页面
           }
         })
       }
