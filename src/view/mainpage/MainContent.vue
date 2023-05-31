@@ -118,7 +118,7 @@ export default {
       showBlogs.value = true
       axios({
         method: 'GET',
-        url: 'http://10.26.5.9:8010/article/getAllArticle',
+        url: 'http://10.26.5.9:8010/article/getAllArticles',
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -131,9 +131,9 @@ export default {
           while(contentList.length){
             contentList.pop()
           }
-          console.log(resp.data.data.data)
-          let list = resp.data.data.data
-          for (let i = 0; i < resp.data.data.data.length; i++) {
+          console.log(resp.data.data)
+          let list = resp.data.data.articles
+          for (let i = 0; i < list.length; i++) {
 
             console.log(list[i])
             contentList.push(list[i])

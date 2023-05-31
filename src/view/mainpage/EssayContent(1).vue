@@ -33,7 +33,7 @@
             <div v-for="comment in commentsList" :key="comment.id" class="comment">
               <div class="comment-name">
                 <el-avatar shape="square" :size="30" :fit="'fill'" :src="comment.avatar" />
-                {{ comment.name }}
+                  {{ comment.name }}
               </div>
               <div class="comment-content">
                 <h5>
@@ -68,6 +68,7 @@ export default {
 
   setup(props) {
     console.log(props.id)
+
 
     let title = ref("")
     let author = ref("")
@@ -126,8 +127,7 @@ export default {
             }]
           }).then(resp => {
             if (resp.status === 200) {
-              console.log(resp.data.data)
-              author.value = resp.data.data.user.username
+              author.value = resp.data.data.data.username
               console.log("文章作者：" + author.value)
             }
           })
@@ -171,9 +171,9 @@ export default {
               }]
             }).then(resp => {
               if (resp.status === 200) {
-                const url = resp.data.data.user.avatar;
+                const url = resp.data.data.data.avatar;
 
-                name.value = resp.data.data.user.username
+                name.value = resp.data.data.data.username
                 console.log("获得" + commentsList[i].user_id + "的用户名 " + name.value)
                 console.log(name.value)
                 commentsList[i].name = name.value
@@ -363,6 +363,44 @@ export default {
   float: left;
 }
 
+.nav-menu {
+  height: 80px;
+  width: 60px;
+  text-align: center;
+  float: left;
+  margin: 0 10px 0 10px;
+  /*background-color: rgba(238, 159, 6, 0.4);*/
+}
+
+.nav-menu:hover {
+  border-bottom: 5px solid #e76e0d;
+  cursor: pointer;
+}
+
+.search {
+  float: left;
+  width: 500px;
+  margin-left: 30px;
+}
+
+.nav_right {
+  height: 100%;
+  float: right;
+  margin-right: 30px;
+}
+
+.el-main {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(246, 246, 246);
+  margin-top: 80px;
+}
+
+.el-main::-webkit-scrollbar {
+  display: none;
+}
+
 .main-page {
   width: 80%;
   margin: 0 auto;
@@ -509,7 +547,7 @@ export default {
 }
 
 .comment {
-  margin-bottom: 10px;
+  margin-bottom: 1px;
 }
 
 input.full-width {
