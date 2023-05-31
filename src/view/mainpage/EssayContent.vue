@@ -76,7 +76,6 @@ export default {
     let comments = ref(0)
     let commentsList = reactive([])
     let commentAuthor = ref('')
-    let commentContent = ref('')
     let showingComments = ref(false)
     let newComment = ref("")
 
@@ -200,36 +199,6 @@ export default {
       // this.comments = numComments
     }
 
-    function postComment() {
-      // 使用Axios将用户提交的评论发送到后端API，以保存到数据库中
-      // 例如：
-      // axios.post('/api/comments', {
-      //     author: this.commentAuthor,
-      //     content: this.commentContent
-      //   })
-      //   .then(response => {
-      //     console.log(response.data)
-      //     this.commentsList.push({
-      //       author: this.commentAuthor,
-      //       content: this.commentContent
-      //     })
-      //     this.commentAuthor = ''
-      //     this.commentContent = ''
-      //     this.comments++
-      //   })
-      //   .catch(error => {
-      //     console.error(error)
-      //   })
-      // 在这里，我们只是将评论添加到commentsList属性中
-      this.commentsList.push({
-        author: this.commentAuthor,
-        content: this.commentContent
-      })
-      this.commentAuthor = ''
-      this.commentContent = ''
-      this.comments++
-    }
-
     function setLike() {
       if (getCookie('username')) {
         axios({
@@ -245,9 +214,6 @@ export default {
         }).then(resp => {
           if (resp.status === 200) {
             console.log("点赞成功")
-            // likeArticle()
-            // this.$router.go(0)
-            location.reload()
           }
         })
       }else {
@@ -270,10 +236,12 @@ export default {
           }]
         }).then(resp => {
           if (resp.status === 200) {
-            console.log("评论上传成功")
             alert("评论上传成功")
-            // this.$router.go(0)
-            location.reload()
+            commentsList.push({
+              author: commentAuthor,
+              content: newComment,
+            })
+            comments.value++
           }
         })
       }else {
@@ -336,12 +304,10 @@ export default {
       comments,
       commentsList,
       commentAuthor,
-      commentContent,
       showingComments,
       likeArticle,
       showComments,
       getComments,
-      postComment,
       // eslint-disable-next-line vue/no-dupe-keys
       title,
       // eslint-disable-next-line vue/no-dupe-keys
