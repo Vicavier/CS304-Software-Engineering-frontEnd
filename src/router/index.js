@@ -39,7 +39,13 @@ const routes = [
             {
                 path: 'playVideo',
                 component: () => import('../view/mainpage/VideoContent.vue')
-            }
+            },
+            {
+                path: '/article/:id',
+                name: 'article',
+                component: () => import('../view/mainpage/EssayContent'),
+                props: true
+            },
         ]
     },
     {
@@ -50,12 +56,7 @@ const routes = [
         path: '/sign',
         component: () => import('../view/SignPage.vue'),
     },
-    {
-        path: '/article/:id',
-        name: 'article',
-        component: () => import('../view/mainpage/EssayContent'),
-        props: true
-    },
+
 ]
 
 const router = createRouter({

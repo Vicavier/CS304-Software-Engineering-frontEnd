@@ -36,7 +36,7 @@
         </div>
         <div class="nav_right" v-show="!haveLogin">
           <div class="nav_right">
-            <el-button type="primary" @click="onLogin">登录/注册</el-button>
+            <el-button type="primary" @click="onLogin" v-if="!check">登录/注册</el-button>
             <el-button type="primary" @click="LogOut" v-if="check">退出登录</el-button>
           </div>
         </div>

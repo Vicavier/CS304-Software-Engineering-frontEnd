@@ -1,18 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <div id="logo">
-        <a>
-          <img src="../../image/logo.png">
-        </a>
-      </div>
-      <div id="link-button">
-        <div class="nav-menu"><i class="icon-home"></i> 首页</div>
-        <div class="nav-menu"><i class="icon-user"></i> 我的</div>
-        <div class="nav-menu"><i class="icon-folder"></i> 收藏夹</div>
-        <div class="nav-menu"><i class="icon-heart"></i> 关注</div>
-      </div>
-    </el-header>
 
     <el-main>
       <div class="main-page">
@@ -111,7 +98,7 @@ export default {
 
       axios({
         method: "GET",
-        url: `http://localhost:8010/article/getById?id=` + props.id,
+        url: `http://10.26.5.9:8010/article/getById?id=` + props.id,
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -131,7 +118,7 @@ export default {
           getComments()
           axios({
             method: "GET",
-            url: `http://localhost:8010/userCenter/getUserData?userId=` + user_id.value,
+            url: `http://10.26.5.9:8010/userCenter/getUserData?userId=` + user_id.value,
             transformRequest: [function (data) {
               let str = '';
               for (let key in data) {
@@ -154,7 +141,7 @@ export default {
     function getComments() {
       axios({
         method: "POST",
-        url: `http://localhost:8010/article/getArticleComments?id=` + props.id,
+        url: `http://10.26.5.9:8010/article/getArticleComments?id=` + props.id,
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -168,14 +155,14 @@ export default {
           console.log(resp.data.data.articleComments)
           //TODO:这里我忘记怎么解析评论了
           for (let i = 0; i < resp.data.data.articleComments.length; i++) {
-            console.log("评论" + i)
+            console.log("评论")
             commentsList.push(resp.data.data.articleComments[i])
             console.log(commentsList[i].user_id)
-            let name = ref("")
+            let name = ""
 
             axios({
               method: "GET",
-              url: `http://localhost:8010/userCenter/getUserData?userId=` + commentsList[i].user_id,
+              url: `http://10.26.5.9:8010/userCenter/getUserData?userId=` + commentsList[i].user_id,
               transformRequest: [function (data) {
                 let str = '';
                 for (let key in data) {
@@ -185,19 +172,18 @@ export default {
               }]
             }).then(resp => {
               if (resp.status === 200) {
-                name.value = resp.data.data.data.username
-                console.log("获得" + commentsList[i].user_id + "的用户名 " + name.value)
-                console.log(name.value)
-                commentsList[i].name = name.value
+                console.log("获得" + commentsList[i].user_id + "的用户名")
+                author.value = resp.data.data.data.username
+                console.log(author.value)
+                name = author.value
               }
             })
-
-            console.log("提取完评论"+i)
-
-            // console.log(name.value)
-            // console.log(commentsList[i].name)
+            console.log(name)
+            commentsList[i].name = name
           }
 
+
+          console.log(commentsList[0])
         }
       })
 
@@ -245,7 +231,7 @@ export default {
       if (getCookie('username')) {
         axios({
           method: "POST",
-          url: `http://localhost:8010/article/likeArticle?articleId=` + props.id,
+          url: `http://10.26.5.9:8010/article/likeArticle?articleId=` + props.id,
           transformRequest: [function (data) {
             let str = '';
             for (let key in data) {
@@ -273,7 +259,7 @@ export default {
       if (getCookie('username')) {
         axios({
           method: "POST",
-          url: `http://localhost:8010/article/likeArticle?articleId=` + props.id,
+          url: `http://10.26.5.9:8010/article/likeArticle?articleId=` + props.id,
           transformRequest: [function (data) {
             let str = '';
             for (let key in data) {
@@ -296,7 +282,7 @@ export default {
       let name = ''
       axios({
         method: "GET",
-        url: `http://localhost:8010/userCenter/getUserData?userId=` + id,
+        url: `http://10.26.5.9:8010/userCenter/getUserData?userId=` + id,
         transformRequest: [function (data) {
           let str = '';
           for (let key in data) {
@@ -340,59 +326,11 @@ export default {
 }
 </script>
 <style>
-.el-header {
-  height: 80px;
-  width: 100%;
-  position: fixed;
-  line-height: 80px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 1px 3px hsla(0, 0%, 7%, .1);
-  overflow: hidden;
-  z-index: 99;
-}
 
 .el-header #logo {
   height: 50px;
   line-height: 80px;
   float: left;
-}
-
-.nav-menu {
-  height: 80px;
-  width: 60px;
-  text-align: center;
-  float: left;
-  margin: 0 10px 0 10px;
-  /*background-color: rgba(238, 159, 6, 0.4);*/
-}
-
-.nav-menu:hover {
-  border-bottom: 5px solid #e76e0d;
-  cursor: pointer;
-}
-
-.search {
-  float: left;
-  width: 500px;
-  margin-left: 30px;
-}
-
-.nav_right {
-  height: 100%;
-  float: right;
-  margin-right: 30px;
-}
-
-.el-main {
-  display: block;
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(246, 246, 246);
-  margin-top: 80px;
-}
-
-.el-main::-webkit-scrollbar {
-  display: none;
 }
 
 .main-page {

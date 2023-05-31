@@ -11,6 +11,7 @@ import { toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'
 import Swal from "sweetalert2";
+import {getCookie} from "@/js/global";
 
 export default {
   name: "PersonalArticle.vue",
@@ -30,7 +31,7 @@ export default {
       method:'GET',
       url:'http://10.26.5.9:8010/userCenter/getUserArticles',
       params:{
-        userId:'8348642780250718208'
+        userId:getCookie("id")
       }
     }).then(res => {
       const list = res.data.data.data;
