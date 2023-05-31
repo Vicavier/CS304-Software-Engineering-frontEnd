@@ -278,12 +278,14 @@ export default {
 
 .veen .wrapper #login {
   padding-top: 20%;
+  width:80%;
   visibility: visible;
 }
 
 .veen .wrapper #register {
   transform: translateY(-80%) translateX(100%);
   visibility: hidden;
+  width:80%;
 }
 
 .veen .wrapper.move #register {

@@ -10,7 +10,7 @@ import {getCookie} from "@/js/global";
 import {reactive, toRefs} from "vue";
 import { ref } from 'vue';
 import axios from 'axios'
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 export default {
   name: "QComponent.vue",
@@ -35,8 +35,8 @@ export default {
       }
     }).then(res =>
     {
-      console.log(res.data.data.data)
-      const list = res.data.data.data;
+      // console.log(res.data.data.data)
+      const list = res.data.data.topics;
       const length = list.length;
       for (let i = 0; i < length;i++) {
         var temp = {
@@ -51,13 +51,14 @@ export default {
         QAcontentList.push(temp)
       }
       console.log(QAcontentList)
-    }).catch(function (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: '失败！',
-        text: '无法获取回答',
-      })
+    })
+        .catch( {
+      // console.log(error);
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: '失败！',
+      //   text: '无法获取回答',
+      // })
     }
 
     );

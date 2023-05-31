@@ -2,14 +2,18 @@
   <div class="upload-area">
     <div :style="{ backgroundImage: `url(${imageUrl})`, backgroundColor:'#A9A9A9' }">
       <el-upload
+          class="avatar-uploader"
           action="http://10.26.5.9:8081/cloud_storage/file/uploading"
           :show-file-list="false"
           accept="image/png, image/jpg, image/jpeg, image/gif"
           :on-success="handleFileUpload">
+        <el-button size="small" type="primary">点击上传背景图</el-button>
         <!--        <img v-if="imageUrl" :src="imageUrl" class="avatar" />-->
         <!--        <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>-->
       </el-upload>
+
     </div>
+
   </div>
 </template>
 

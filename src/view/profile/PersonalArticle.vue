@@ -11,7 +11,7 @@ import BlogComponent from "@/components/blogComponent.vue";
 import { toRefs} from "vue";
 import { reactive } from 'vue';
 import axios from 'axios'
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import {getCookie} from "@/js/global";
 import router from "@/router";
 
@@ -47,7 +47,7 @@ export default {
         userId:getCookie("id")
       }
     }).then(res => {
-      const list = res.data.data.data;
+      const list = res.data.data.articles;
       const length = list.length;
       for (let i = 0; i < length;i++) {
         // var temp = {
@@ -64,13 +64,13 @@ export default {
         contentList.push(list[i])
       }
       console.log(contentList)
-    }).catch(function (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: '失败！',
-        text: '无法获取回答',
-      })
+    }).catch( {
+      // console.log(error);
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: '失败！',
+      //   text: '无法获取回答',
+      // })
     });
     return{
       contentList,

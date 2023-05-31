@@ -214,6 +214,7 @@ export default {
         }).then(resp => {
           if (resp.status === 200) {
             console.log("点赞成功")
+            likes.value++
           }
         })
       }else {

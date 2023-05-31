@@ -185,7 +185,7 @@ export default {
           let list = resp.data.data.videos
           for (let i = 0; i < list.length; i++) {
             if (list[i].type === 'life'){
-              gamesVideoList.push({
+              lifeVideoList.push({
                 id:list[i].id,
                 title:list[i].title,
                 cover:list[i].cover,
@@ -194,7 +194,7 @@ export default {
                 uploader:list[i].uploader
               })
             } else if (list[i].type === 'games') {
-              lifeVideoList.push({
+              gamesVideoList.push({
                 id:list[i].id,
                 title:list[i].title,
                 cover:list[i].cover,

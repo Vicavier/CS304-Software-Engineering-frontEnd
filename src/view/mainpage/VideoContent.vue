@@ -45,9 +45,11 @@ import videoComponent from "@/components/videoComponent.vue";
 import smallVideoComponent from "@/components/smallVideoComponent.vue";
 import router from "@/router";
 import {getCookie} from "@/js/global";
-import {onMounted, reactive, toRef} from 'vue'
+import {onMounted, reactive} from 'vue'
 import axios from "axios";
 
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 export default {
   props: ['id', 'url', 'uploader'],
   components: {
@@ -56,7 +58,7 @@ export default {
   },
   setup(props) {
     // console.log(props)
-    let video_url = toRef(props.url)
+    let video_url = props.url
     const relatedVideo = reactive([])
 
     function uploadVideo() {

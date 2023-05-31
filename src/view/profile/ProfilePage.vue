@@ -8,12 +8,14 @@
 
     <div class="profile-info">
       <el-avatar shape="square" :size="100" :fit="'fill'" :src="url" />
-      用户id: {{id}}
+      <div class="big-font">
+         {{id}}, 您好！
+      </div>
     </div>
 
     <div class="profile-body">
       <el-row class="mb-4">
-        <el-button @click="changeNav(0)">回答</el-button>
+<!--        <el-button @click="changeNav(0)">回答</el-button>-->
         <el-button @click="changeNav(1)">提问</el-button>
         <el-button @click="changeNav(2)">文章</el-button>
         <el-button @click="changeNav(3)">修改个人资料</el-button>
@@ -43,7 +45,7 @@ export default {
   },
   data(){
     return{
-      nav:0,
+      nav:1,
       // userName:Yuki,
     }
   },
@@ -53,7 +55,7 @@ export default {
     }
   },
   setup(){
-    let id = getCookie("id")
+    let id = getCookie("nickname")
     const url = getCookie("avatar");
     // let nav = 0;
 
@@ -86,4 +88,6 @@ export default {
   overflow: hidden;
   margin-top: 14px;
 }
+
+
 </style>
