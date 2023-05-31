@@ -95,15 +95,17 @@ export default {
         id:1,
         title:'钢铁侠请苹果公司拍的宣传片',
         cover:'https://i2.hdslb.com/bfs/archive/0c8566b1e6a2f6fa8956e5729a10ab8c869d053e.jpg@560w_350h_1c_!web-space-index-topvideo.webp',
-        url:'',
+        url:'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
         uptime:'2023-3-3',
+        uploader:'admin'
       },
       {
         id:2,
         title:'[混剪 踩点]叶问:我就会亿点点。',
         cover:'https://i2.hdslb.com/bfs/archive/4c33106ee62933d2c8d16adaac369606c5fb3c89.jpg@320w_200h_1c_!web-space-upload-video.webp',
-        url:'',
-        uptime:'2022-2-21'
+        url:'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        uptime:'2022-2-21',
+        uploader:'admin'
       }
     ])
     const gamesVideoList = reactive([
@@ -111,8 +113,9 @@ export default {
         id:1,
         title:'狂魔哥向七彩猫、赖神、大仙借号，最终被同台主播赚走100块后顶',
         cover:'https://i2.hdslb.com/bfs/archive/3d93a73b3efe535162e4825a48c31c48de210727.jpg@672w_378h_1c_!web-home-common-cover.webp',
-        url:'',
+        url:'http://mirror.aarnet.edu.au/pub/TED-talks/911Mothers_2010W-480p.mp4',
         uptime:'2023-3-3',
+        uploader:'admin'
       },
     ])
     const learningVideoList = reactive([
@@ -120,8 +123,9 @@ export default {
         id:1,
         title:'机器学习入门到精通！不愧是公认的讲的最好的【机器学习全套教',
         cover:'https://i1.hdslb.com/bfs/archive/c3f3a350ba53ecdea6859a143a0ed9c5910e80e2.png@672w_378h_1c_!web-search-common-cover.webp',
-        url:'',
+        url:'https://media.w3.org/2010/05/sintel/trailer.mp4',
         uptime:'2023-3-3',
+        uploader:'admin'
       },
     ])
     const activityVideoList = reactive([
@@ -129,8 +133,9 @@ export default {
         id:1,
         title:'37所友校学生会为苏苏加油！祝南方科技大学学生会10周年生日快乐',
         cover:'https://i2.hdslb.com/bfs/archive/9332d7df0878a876e8ab6ee0e9e7a20329866f26.jpg@672w_378h_1c_!web-search-common-cover.webp',
-        url:'',
+        url:'http://vjs.zencdn.net/v/oceans.mp4',
         uptime:'2023-3-3',
+        uploader:'admin'
       },
     ])
     function loadLife() {

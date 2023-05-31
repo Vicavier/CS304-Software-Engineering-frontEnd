@@ -14,10 +14,10 @@
         <div class="likes">
           <el-button type="primary">赞同 {{ content.likes }}</el-button>
         </div>
-        <div class="collect">
-          <el-button type="primary">收藏</el-button>
-          <!--        需要加一个方法将本文章收藏到当前用户的收藏夹里-->
-        </div>
+<!--        <div class="collect">-->
+<!--          <el-button type="primary">收藏</el-button>-->
+<!--          &lt;!&ndash;        需要加一个方法将本文章收藏到当前用户的收藏夹里&ndash;&gt;-->
+<!--        </div>-->
       </div>
     </div>
 

@@ -2,6 +2,7 @@
   <div class="QA-component">
     <div class="QA-content">
       <div id="title">{{ QAContent.title.value }}</div>
+<!--      <div class="answer" v-for="(index,item) in answerList" :key="index">{{ item }}</div>-->
       <div id="question-info">{{ QAContent.views }} 浏览·{{ QAContent.answers }} 回答·{{QAContent.likes}} 点赞</div>
     </div>
     <div class="QA-content">
@@ -9,11 +10,14 @@
         <img :src=QAContent.avatar_url.value style="width: 25px;">
          {{QAContent.poster.value}}
       </div>
-      <el-button id="write-button" type="primary" @click="onLogin"><i class="icon-write"></i>写回答</el-button>
+      <el-button id="write-button" type="primary" @click="answer"><i class="icon-write"></i>写回答</el-button>
     </div>
   </div>
 </template>
 <script>
+import router from "@/router";
+import {reactive} from "vue";
+
 export default {
   props:{
     QAContent:{
@@ -26,6 +30,21 @@ export default {
       avatar_url:String
     }
   },
+  setup(props){
+    const answerList = reactive(['sd','df'])
+    function answer(){
+      router.push({
+        name: 'answer',
+        params: {
+          title: props.QAContent.title
+        }
+      });
+    }
+    return{
+      answer,
+      answerList
+    }
+  }
 }
 </script>
 <style scoped>
@@ -59,5 +78,7 @@ export default {
 #write-button{
   float: right;
 }
-
+.answer{
+  margin-left: 40px;
+}
 </style>

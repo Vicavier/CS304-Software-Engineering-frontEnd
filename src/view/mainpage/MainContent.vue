@@ -174,8 +174,6 @@ export default {
                 avatar_url:'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
               })
             } else {
-              let poster = ''
-              let avatar_url = ''
               axios({
                 method: 'GET',
                 url: 'http://10.26.5.9:8010/userCenter/getUserData',
@@ -191,8 +189,9 @@ export default {
                 }]
               }).then(userData => {
                 if (userData.status === 200){
-                  poster = userData.data.data.data.username
-                  avatar_url = userData.data.data.data.avatar
+                  console.log(userData.data.data)
+                  let poster = userData.data.data.user.username
+                  let avatar_url = userData.data.data.user.avatar
                   QAcontentList.push({
                     id:list[i].id,
                     title: list[i].title,
