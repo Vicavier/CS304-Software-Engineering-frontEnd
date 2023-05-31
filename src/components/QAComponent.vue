@@ -9,7 +9,7 @@
         <img :src=QAContent.avatar_url.value style="width: 25px;">
          {{QAContent.poster.value}}
       </div>
-      <el-button id="write-button" type="primary" @click="onLogin"><i class="icon-write"></i>写回答</el-button>
+      <el-button id="write-button" type="primary" @click="answer"><i class="icon-write"></i>写回答</el-button>
     </div>
   </div>
 </template>
@@ -26,6 +26,11 @@ export default {
       avatar_url:String
     }
   },
+  setup(){
+    function answer(){
+
+    }
+  }
 }
 </script>
 <style scoped>
