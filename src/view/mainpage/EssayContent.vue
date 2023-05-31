@@ -18,10 +18,10 @@
             <div class="likes">
               <el-button type="primary" @click="setLike">赞同 {{ this.likes }}</el-button>
             </div>
-            <div class="collect">
-              <el-button type="primary" @click="collect">收藏</el-button>
-              <!--        需要加一个方法将本文章收藏到当前用户的收藏夹里-->
-            </div>
+<!--            <div class="collect">-->
+<!--              <el-button type="primary" @click="collect">收藏</el-button>-->
+<!--              &lt;!&ndash;        需要加一个方法将本文章收藏到当前用户的收藏夹里&ndash;&gt;-->
+<!--            </div>-->
           </div>
 
 

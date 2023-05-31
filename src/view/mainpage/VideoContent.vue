@@ -8,7 +8,7 @@
           <div id="main">
             <div class="content">
               <videoComponent :video_url="video_url"></videoComponent>
-              <div>评论区</div>
+              <div></div>
             </div>
           </div>
         </div>
