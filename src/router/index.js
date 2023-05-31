@@ -63,7 +63,11 @@ const routes = [
         path: '/sign',
         component: () => import('../view/SignPage.vue'),
     },
-
+    {
+        path: '/answer/:title',
+        name:'answer',
+        component: () => import('../components/ansComponent.vue'),
+    },
 
 ]
 
