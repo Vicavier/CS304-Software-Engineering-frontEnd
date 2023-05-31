@@ -1,12 +1,12 @@
 <template>
   <div class="video-box">
     <div class="video-info">
-      <span>Never Gonna Give You Up~</span>
-      <span>{{update}}</span>
+      <span>{{ videos.title }}</span>
+      <span>{{videos.gmt_create}}</span>
     </div>
     <div class="video-cover">
       <img
-          src="https://i1.hdslb.com/bfs/archive/47d93e3d993ce921149e181760db307ee151547e.jpg@672w_378h_1c_!web-search-common-cover.webp"
+          :src="videos.cover"
           style="width: 120px"/>
     </div>
   </div>
@@ -15,6 +15,14 @@
 import {ref} from 'vue'
 
 export default {
+  props: {
+    videos:{
+      id:String,
+      title:String,
+      gmt_create:String,
+      cover:String,
+    }
+  },
   setup() {
     let update = ref('2023-5-30 19:30')
     return {

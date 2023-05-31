@@ -104,7 +104,6 @@ export default {
     let level = ref('2')
     let showBlogs = ref(true)
     function toEssay(cont) {
-      console.log(cont)
       router.push({
         name: 'article',
         params: {
@@ -144,7 +143,9 @@ export default {
       })
     }
     function loadQA(){
-
+      while(QAcontentList.length){
+        QAcontentList.pop()
+      }
       selectDiv.value = 'Q&A'
       showBlogs.value = false
       axios({
@@ -162,7 +163,6 @@ export default {
           console.log(resp.data.data.topics)
           let list = resp.data.data.topics
           for (let i = 0; i < list.length; i++) {
-            console.log(list[i])
             if (list[i].is_anonymous){
               QAcontentList.push({
                 id:list[i].id,
@@ -193,21 +193,18 @@ export default {
                 if (userData.status === 200){
                   poster = userData.data.data.data.username
                   avatar_url = userData.data.data.data.avatar
+                  QAcontentList.push({
+                    id:list[i].id,
+                    title: list[i].title,
+                    views:list[i].views,
+                    answers:list[i].answers,
+                    likes:list[i].likes,
+                    poster:poster,
+                    avatar_url:avatar_url,
+                  })
                 }
               })
-
-              QAcontentList.push({
-                id:list[i].id,
-                title: list[i].title,
-                views:list[i].views,
-                answers:list[i].answers,
-                likes:list[i].likes,
-                poster:poster,
-                avatar_url:avatar_url,
-              })
-
             }
-
           }
           console.log(QAcontentList)
         }

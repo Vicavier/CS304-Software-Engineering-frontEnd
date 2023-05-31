@@ -13,9 +13,11 @@ export default {
   components:{
     vue3videoPlay
   },
-  setup() {
+  props:['video_url'],
+  setup(props) {
     const options = reactive({
-      src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+      // src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+      src: props.video_url,
       width:'100%',
     })
     return {

@@ -7,7 +7,7 @@
           <!-- v-me-editor 组件-->
           <div id="main">
             <div class="content">
-              <videoComponent></videoComponent>
+              <videoComponent :video_url="video_url"></videoComponent>
               <div>评论区</div>
             </div>
           </div>
@@ -24,7 +24,9 @@
           上传作者
         </div>
         <div class="up-info">
-          <img src="https://image-attachment.oss-cn-beijing.aliyuncs.com/data/www/html/uc_server/data/avatar/002/37/19/19_avatar_middle.jpg?v=" style="width: 30px;display: inline-block" alt=""/>
+          <img
+              src="https://image-attachment.oss-cn-beijing.aliyuncs.com/data/www/html/uc_server/data/avatar/002/37/19/19_avatar_middle.jpg?v="
+              style="width: 30px;display: inline-block" alt=""/>
           临界
         </div>
         <div class="vice-content-title">
@@ -32,9 +34,7 @@
           作者的其他视频
         </div>
         <div class="video-list">
-          <smallVideoComponent></smallVideoComponent>
-          <smallVideoComponent></smallVideoComponent>
-          <smallVideoComponent></smallVideoComponent>
+          <smallVideoComponent  v-for="videos in relatedVideo" :key="videos.id" :videos="videos"></smallVideoComponent>
         </div>
       </div>
     </el-main>
@@ -44,23 +44,62 @@
 import videoComponent from "@/components/videoComponent.vue";
 import smallVideoComponent from "@/components/smallVideoComponent.vue";
 import router from "@/router";
-import {ref} from "vue";
+import {getCookie} from "@/js/global";
+import {onMounted, reactive, toRef} from 'vue'
+import axios from "axios";
+
 export default {
-  components:{
+  props: ['id', 'url', 'uploader'],
+  components: {
     videoComponent,
     smallVideoComponent,
   },
-  setup(){
-    let login = ref(false)
-    function uploadVideo(){
-      if(login.value){
+  setup(props) {
+    // console.log(props)
+    let video_url = toRef(props.url)
+    const relatedVideo = reactive([])
+
+    function uploadVideo() {
+      if (getCookie('id')) {
         console.log('可以上传')
-      }else{
-        router.push('./sign')
+        router.push('/upload')
+      } else {
+        router.push('/sign')
       }
     }
-    return{
+
+    onMounted(() => {
+      axios({
+        method: 'GET',
+        url: 'http://10.26.5.9:8020/video/getVideoByUserId',
+        params: {
+          user_id: props.uploader
+        },
+        transformRequest: [function (data) {
+          let str = '';
+          for (let key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+          }
+          return str;
+        }]
+      }).then(resp => {
+        if (resp.status === 200) {
+          let list = resp.data.data.videos
+          for (let i = 0; i < list.length; i++) {
+            relatedVideo.push({
+              id:list[i].id,
+              title:list[i].title,
+              gmt_create:list[i].gmt_create,
+              cover:list[i].cover
+            })
+          }
+        }
+      })
+    })
+    return {
       uploadVideo,
+      video_url,
+      relatedVideo
     }
   }
 }
@@ -87,15 +126,17 @@ export default {
   background-color: rgb(255, 255, 255);
 }
 
-.vice-content-title{
+.vice-content-title {
   height: 50px;
   line-height: 50px;
   margin-left: 20px;
 }
-.up-info{
+
+.up-info {
   margin-left: 40px;
 }
-.video-list{
+
+.video-list {
   margin-left: 20px;
 }
 </style>
