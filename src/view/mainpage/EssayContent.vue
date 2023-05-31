@@ -241,6 +241,7 @@ export default {
             commentsList.push({
               author: commentAuthor,
               content: newComment,
+              avatar:getCookie('avatar')
             })
             comments.value++
           }
